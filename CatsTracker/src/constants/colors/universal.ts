@@ -5,6 +5,7 @@ export const BLACK = '#000000';
 export const MID_BLACK = '#333333';
 export const WHITE = '#FFFFFF';
 export const GRAY = '#CCCAC4';
+export const OFF_WHITE = '#F5F4EF';
 export const LIGHT_GRAY = '#F5F4EF';
 export const MID_GRAY = '#CCCAC4';
 export const LIGHT_BLUE = '#1C75DD';

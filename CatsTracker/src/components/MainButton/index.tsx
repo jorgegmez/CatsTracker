@@ -1,8 +1,14 @@
-import { Text, TextStyle, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import {
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from 'react-native';
 
 import Icon from '../Icon';
-import React, { PureComponent, ReactNode } from 'react';
-import { colorsGlobal as colors } from '@constants';
+import React, {PureComponent, ReactNode} from 'react';
+import {colorsGlobal as colors} from '@constants';
 import styles from './styles';
 
 interface Props extends TouchableOpacityProps {
@@ -10,7 +16,7 @@ interface Props extends TouchableOpacityProps {
   theme?: 'blue' | 'white' | 'gray';
   outline?: boolean;
   flat?: boolean;
-  icon?: { name: string; size?: number; color?: string; type: string };
+  icon?: {name: string; size?: number; color?: string; type: string};
   children?: ReactNode;
   customIcon?: boolean;
   readonly customTextStyle?: TextStyle[] | TextStyle;
@@ -39,10 +45,21 @@ class MainButton extends PureComponent<Props> {
     } = this.props;
 
     return flat ? (
-      <TouchableOpacity disabled={disabled} testID={testID} style={[styles.buttonFlat, customButtonStyle]} onPress={onPress}>
+      <TouchableOpacity
+        disabled={disabled}
+        testID={testID}
+        style={[styles.buttonFlat, customButtonStyle]}
+        onPress={onPress}>
         {customIcon && children}
-        {icon && <Icon config={{ ...icon, color: colors.WHITE }} style={text ? styles.icon : {}} />}
-        {text && <Text style={[styles.textFlatButton, customTextStyle]}>{text}</Text>}
+        {icon && (
+          <Icon
+            config={{...icon, color: colors.WHITE}}
+            style={text ? styles.icon : {}}
+          />
+        )}
+        {text && (
+          <Text style={[styles.textFlatButton, customTextStyle]}>{text}</Text>
+        )}
       </TouchableOpacity>
     ) : (
       <TouchableOpacity
@@ -57,12 +74,24 @@ class MainButton extends PureComponent<Props> {
           disabled && styles.buttonGray,
           customButtonStyle,
         ]}
-        onPress={onPress}
-      >
+        onPress={onPress}>
         <View style={styles.buttonContainer}>
           {customIcon && children}
           {icon && <Icon config={icon} style={styles.icon} />}
-          {text && <Text style={[styles.text, { color: theme === 'white' || outline === true ? colors.PRIMARY : colors.WHITE }]}>{text}</Text>}
+          {text && (
+            <Text
+              style={[
+                styles.text,
+                {
+                  color:
+                    theme === 'white' || outline === true
+                      ? colors.PRIMARY
+                      : colors.WHITE,
+                },
+              ]}>
+              {text}
+            </Text>
+          )}
         </View>
       </TouchableOpacity>
     );

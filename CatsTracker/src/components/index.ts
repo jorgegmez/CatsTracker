@@ -7,6 +7,7 @@ import MainButton from './MainButton';
 import Modal from './Modal';
 import ProfilePicture from './ProfilePicture';
 import Titles from './Titles/Titles';
+import StepButton from './StepButton';
 
 export {
   BodyText,
@@ -18,4 +19,5 @@ export {
   Modal,
   ProfilePicture,
   Titles,
+  StepButton,
 };

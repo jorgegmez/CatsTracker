@@ -1,8 +1,8 @@
-import MainButton from '..';
+import MainButton from '../';
 
 import React from 'react';
-import { Text } from 'react-native';
-import { storiesOf } from '@storybook/react-native';
+import {Text} from 'react-native';
+import {storiesOf} from '@storybook/react-native';
 
 storiesOf('MainButton', module)
   .add('Simple MainButton', () => <MainButton text="Press Me" theme="blue" />)
