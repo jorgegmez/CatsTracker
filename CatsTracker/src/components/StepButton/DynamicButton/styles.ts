@@ -1,5 +1,5 @@
-import { colorsTaxi, colorsGlobal as colors } from '@constants';
-import { StyleSheet } from 'react-native';
+import {colorsGlobal as colors} from '@constants';
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -17,17 +17,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonCommon: {
-    borderColor: colorsTaxi.OFF_WHITE,
+    borderColor: colors.OFF_WHITE,
     borderWidth: 1,
     height: 70,
     paddingHorizontal: 20,
     width: '100%',
   },
   buttonCream: {
-    backgroundColor: colorsTaxi.OFF_WHITE,
+    backgroundColor: colors.OFF_WHITE,
   },
   buttonWhite: {
-    backgroundColor: colorsTaxi.WHITE,
+    backgroundColor: colors.WHITE,
   },
   leftComponents: {
     flexDirection: 'row',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     fontSize: 16,
     fontWeight: '400',
-    color: colorsTaxi.BLACK,
+    color: colors.BLACK,
   },
   rightComponentContainer: {
     justifyContent: 'center',

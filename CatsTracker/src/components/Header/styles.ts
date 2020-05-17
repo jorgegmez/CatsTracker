@@ -1,5 +1,5 @@
-import { colorsGlobal as colors } from '@constants';
-import { StyleSheet } from 'react-native';
+import {colorsGlobal as colors} from '@constants';
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PRIMARY,
     borderBottomRightRadius: 70,
     shadowColor: colors.BLACK,
-    shadowOffset: { height: 0, width: 0 },
+    shadowOffset: {height: 0, width: 0},
     shadowOpacity: 0.75,
     shadowRadius: 5,
   },

@@ -27,6 +27,8 @@ import {
 
 import {global as colorsGlobal} from './colors';
 
+import {universal as imagesGlobal} from './images';
+
 export {
   actionsAuth,
   actionsCat,
@@ -40,6 +42,7 @@ export {
   stringsCat,
   stringsUser,
   colorsGlobal,
+  imagesGlobal,
   icons,
   googlePlaces,
   queue,

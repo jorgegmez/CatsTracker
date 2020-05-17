@@ -1,29 +1,29 @@
-import { StyleSheet } from 'react-native';
-import { colorsGlobal as colors } from '@constants';
+import {StyleSheet} from 'react-native';
+import {colorsGlobal as colors} from '@constants';
 
 const styles = StyleSheet.create({
   container: {
     height: 'auto',
     shadowColor: colors.BLACK,
-    shadowOffset: { height: 0, width: 0 },
+    shadowOffset: {height: 0, width: 0},
     shadowOpacity: 0.75,
     shadowRadius: 5,
     alignItems: 'center',
   },
   innerHeader: {
     width: '100%',
-    paddingVertical: '10%',
+    paddingVertical: '15%',
     paddingHorizontal: '7%',
   },
   logo: {
-    minHeight: 53,
+    minHeight: 55,
     minWidth: 126.5,
     resizeMode: 'contain',
     alignSelf: 'center',
     marginBottom: 32,
   },
   hero: {
-    minHeight: 136,
+    minHeight: 170,
     minWidth: 212,
     resizeMode: 'contain',
     alignSelf: 'center',
@@ -51,4 +51,4 @@ const dynamicStyles = (logo?: number) =>
     },
   });
 
-export { styles, dynamicStyles };
+export {styles, dynamicStyles};

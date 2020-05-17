@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { colorsGlobal as colors } from '@constants';
+import {StyleSheet} from 'react-native';
+import {colorsGlobal as colors} from '@constants';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -52,4 +52,4 @@ const dynamicStyles = (size: number) =>
     },
   });
 
-export { styles, dynamicStyles };
+export {styles, dynamicStyles};

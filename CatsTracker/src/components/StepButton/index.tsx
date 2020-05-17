@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import { TextStyle, Linking } from 'react-native';
-import { Queue, Camera, PermissionsService } from '@services';
-import { queue } from '@constants';
+import React, {ReactNode} from 'react';
+import {TextStyle, Linking} from 'react-native';
+import {Queue, Camera, PermissionsService} from '@services';
+import {queue} from '@constants';
 import DynamicButton from './DynamicButton';
 
 type Props = {
@@ -47,8 +47,6 @@ const getPermissions = async () => {
 
 const StepButton = ({
   onSelectImage,
-  isPublicDocument,
-  isVerificationBtn,
   text,
   sufixComponent,
   customTextStyle,
@@ -56,8 +54,6 @@ const StepButton = ({
   customIconStyle,
   onPress,
   theme,
-  verificationState,
-  placeholder,
   leftIcon,
   showLeftIcon,
   touched,
@@ -65,20 +61,22 @@ const StepButton = ({
   testID,
   showSUfixOnTheLeft,
   fileName,
-  cognitoId,
   disable = false,
 }: Props) => {
   const handleOpenCamera = async (fileName?: string) => {
-    const { builder } = Queue;
+    const {builder} = Queue;
     if (fileName) {
       const hasPermissions = await getPermissions();
 
       if (hasPermissions) {
-        const imageFile = await Camera.handleOpenGallery(fileName, cognitoId || '', isPublicDocument);
+        const imageFile = await Camera.handleOpenGallery(fileName);
 
         if (imageFile.uri) {
           if (onSelectImage) {
-            onSelectImage({ ...imageFile, uri: `${imageFile.uri}::${imageFile.url}` });
+            onSelectImage({
+              ...imageFile,
+              uri: `${imageFile.uri}::${imageFile.url}`,
+            });
           }
 
           builder.addQueueItem(queue.REGISTER_QUEUE, imageFile);

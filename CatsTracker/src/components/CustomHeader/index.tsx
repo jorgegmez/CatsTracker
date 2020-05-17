@@ -1,7 +1,7 @@
-import { Image, Text, View, TextStyle } from 'react-native';
-import React, { PureComponent } from 'react';
+import {Image, Text, View, TextStyle} from 'react-native';
+import React, {PureComponent} from 'react';
 import Header from '../Header';
-import { styles, dynamicStyles } from './styles';
+import {styles, dynamicStyles} from './styles';
 
 type Props = {
   logo?: number;
@@ -14,14 +14,25 @@ type Props = {
 
 class CustomHeader extends PureComponent<Props> {
   render() {
-    const { logo, hero, title, info, titleCustomStyle, infoCustomStyle } = this.props;
+    const {
+      logo,
+      hero,
+      title,
+      info,
+      titleCustomStyle,
+      infoCustomStyle,
+    } = this.props;
     return (
       <Header customStyle={styles.container}>
         <View style={styles.innerHeader}>
           {logo && <Image style={styles.logo} source={logo} />}
           {hero && <Image style={styles.hero} source={hero} />}
-          <Text style={[dynamicStyles(logo).title, titleCustomStyle]}>{title}</Text>
-          <Text style={[dynamicStyles(logo).info, infoCustomStyle]}>{info}</Text>
+          <Text style={[dynamicStyles(logo).title, titleCustomStyle]}>
+            {title}
+          </Text>
+          <Text style={[dynamicStyles(logo).info, infoCustomStyle]}>
+            {info}
+          </Text>
         </View>
       </Header>
     );
