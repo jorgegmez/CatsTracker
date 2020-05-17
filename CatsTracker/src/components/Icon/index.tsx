@@ -1,8 +1,6 @@
 import React, {PureComponent} from 'react';
 import {TextStyle} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-// TODO: JJ - I don't think is good idea to use multiple icon libs,
-// refactor to use just one.
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MtCmIcon from 'react-native-vector-icons/MaterialCommunityIcons';

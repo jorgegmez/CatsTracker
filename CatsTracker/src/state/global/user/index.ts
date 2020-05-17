@@ -24,6 +24,15 @@ const reducer = (state: UserStateModel = initialState, action: Action) => {
         },
       };
 
+    case actions.IDENTIFY_SET_USER_PROFILEPICTURE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.payload,
+        },
+      };
+
     default:
       return state;
   }

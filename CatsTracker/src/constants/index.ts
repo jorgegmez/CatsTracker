@@ -23,11 +23,14 @@ import {
   auth as stringsAuth,
   cat as stringsCat,
   user as stringsUser,
+  validations as stringValidation,
 } from './strings';
 
 import {global as colorsGlobal} from './colors';
 
 import {universal as imagesGlobal} from './images';
+
+import {universal as schemasGlobal} from './schemas';
 
 export {
   actionsAuth,
@@ -41,8 +44,10 @@ export {
   stringsAuth,
   stringsCat,
   stringsUser,
+  stringValidation,
   colorsGlobal,
   imagesGlobal,
+  schemasGlobal,
   icons,
   googlePlaces,
   queue,

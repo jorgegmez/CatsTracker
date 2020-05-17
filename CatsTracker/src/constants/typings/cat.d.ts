@@ -3,6 +3,7 @@ interface CatStateModel extends ReduxStateModel {
     name: string;
     breed: string;
     description: string;
+    age: number;
     picture?: string;
   };
 }

@@ -5,6 +5,7 @@ import {
   TouchableOpacityProps,
   View,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Icon from '../Icon';
 import React, {PureComponent, ReactNode} from 'react';
@@ -62,9 +63,7 @@ class MainButton extends PureComponent<Props> {
         )}
       </TouchableOpacity>
     ) : (
-      <TouchableOpacity
-        testID={testID}
-        disabled={disabled}
+      <LinearGradient
         style={[
           styles.buttonCommon,
           outline && styles.buttonWhite,
@@ -74,26 +73,40 @@ class MainButton extends PureComponent<Props> {
           disabled && styles.buttonGray,
           customButtonStyle,
         ]}
-        onPress={onPress}>
-        <View style={styles.buttonContainer}>
-          {customIcon && children}
-          {icon && <Icon config={icon} style={styles.icon} />}
-          {text && (
-            <Text
-              style={[
-                styles.text,
-                {
-                  color:
-                    theme === 'white' || outline === true
-                      ? colors.PRIMARY
-                      : colors.WHITE,
-                },
-              ]}>
-              {text}
-            </Text>
-          )}
-        </View>
-      </TouchableOpacity>
+        colors={[colors.BLACK, colors.LIGHT_BLUE]}>
+        <TouchableOpacity
+          testID={testID}
+          disabled={disabled}
+          style={[
+            styles.buttonCommon,
+            outline && styles.buttonWhite,
+            theme === 'gray' && styles.buttonGray,
+            theme === 'blue' && styles.buttonCommon,
+            theme === 'white' && styles.buttonWhite,
+            disabled && styles.buttonGray,
+            customButtonStyle,
+          ]}
+          onPress={onPress}>
+          <View style={styles.buttonContainer}>
+            {customIcon && children}
+            {icon && <Icon config={icon} style={styles.icon} />}
+            {text && (
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    color:
+                      theme === 'white' || outline === true
+                        ? colors.PRIMARY
+                        : colors.WHITE,
+                  },
+                ]}>
+                {text}
+              </Text>
+            )}
+          </View>
+        </TouchableOpacity>
+      </LinearGradient>
     );
   }
 }
