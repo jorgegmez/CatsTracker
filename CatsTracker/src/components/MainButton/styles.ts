@@ -1,5 +1,5 @@
-import { colorsGlobal as colors } from '@constants';
-import { StyleSheet } from 'react-native';
+import {colorsGlobal as colors} from '@constants';
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     height: 45,
     justifyContent: 'center',
     marginVertical: 10,
-    width: '100%',
+    width: '85%',
   },
   buttonGray: {
     backgroundColor: colors.GRAY,
