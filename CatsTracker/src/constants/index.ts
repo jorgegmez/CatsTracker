@@ -17,6 +17,7 @@ import {
   auth as routesAuth,
   cat as routesCats,
   boot as routesBoot,
+  home as routesHome,
 } from './routes';
 
 import {
@@ -24,6 +25,7 @@ import {
   cat as stringsCat,
   user as stringsUser,
   validations as stringValidation,
+  home as stringsHome,
 } from './strings';
 
 import {global as colorsGlobal} from './colors';
@@ -41,10 +43,12 @@ export {
   routesAuth,
   routesCats,
   routesBoot,
+  routesHome,
   stringsAuth,
   stringsCat,
   stringsUser,
   stringValidation,
+  stringsHome,
   colorsGlobal,
   imagesGlobal,
   schemasGlobal,

@@ -1,8 +1,17 @@
+type CatPet = {
+  name: string;
+  breed: string;
+  description: string;
+  age: number;
+  picture?: string;
+};
+
 interface UserStateModel extends ReduxStateModel {
   data: {
     name: string;
     lastName: string;
     profilePicture: string;
+    myCats: CatPet[];
   };
 }
 

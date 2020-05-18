@@ -9,6 +9,7 @@ export const initialState: CatStateModel = {
     breed: '',
     description: '',
     picture: '',
+    age: 0,
   },
   pending: false,
   error: {ok: true, text: ''},

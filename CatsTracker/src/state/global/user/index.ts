@@ -8,6 +8,7 @@ export const initialState: UserStateModel = {
     name: '',
     lastName: '',
     profilePicture: '',
+    myCats: [],
   },
   pending: false,
   error: {ok: true, text: ''},
