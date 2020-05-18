@@ -5,3 +5,9 @@ interface UserStateModel extends ReduxStateModel {
     profilePicture: string;
   };
 }
+
+interface UpdateUserStateModel {
+  name?: string;
+  lastName?: string;
+  profilePicture?: string;
+}

@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   },
   buttonCommon: {
     alignItems: 'center',
-    backgroundColor: colors.PRIMARY,
     borderRadius: 25,
     height: 45,
     justifyContent: 'center',

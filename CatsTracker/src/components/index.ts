@@ -8,6 +8,8 @@ import Modal from './Modal';
 import ProfilePicture from './ProfilePicture';
 import Titles from './Titles/Titles';
 import StepButton from './StepButton';
+import Card from './Card';
+import Loading from './Loading';
 
 export {
   BodyText,
@@ -20,4 +22,6 @@ export {
   ProfilePicture,
   Titles,
   StepButton,
+  Card,
+  Loading,
 };
