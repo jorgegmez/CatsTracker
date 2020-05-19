@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, View, Image} from 'react-native';
+import {SafeAreaView, StatusBar, View, Image, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {Formik} from 'formik';
 import _ from 'lodash';
@@ -18,6 +18,7 @@ import {
   RegisterForm,
   Input,
   ProfilePicture,
+  StepButton,
 } from '@components';
 import {handleSelectProfileImage} from '@helpers/handlerProfilePicture';
 import {registerCatInfoRegisterAction} from '@state/global/user/actions';
@@ -77,8 +78,7 @@ class Home extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleRegisterCat = async ({
-    id,
+  public handleRegisterCatMethod = async ({
     name,
     breed,
     age,
@@ -91,9 +91,10 @@ class Home extends React.PureComponent<Props, State> {
         data: {myCats},
       },
     } = this.props;
+    console.log('handleRegisterCat --> name', name);
     if (name && breed && age && description && picture) {
       const cats = handleRegisterCat(
-        {id, name, breed, age, description, picture},
+        {name, breed, age, description, picture},
         myCats,
       );
       registerCatInfoRegister(cats);
@@ -104,7 +105,17 @@ class Home extends React.PureComponent<Props, State> {
     const {themeOfButton, userProfileImage, loading} = this.state;
     const {
       userInfo: {
-        data: {myCats = []},
+        data: {
+          myCats = [
+            {
+              id: 'cat-1',
+              name: 'fito',
+              breed: 'siames',
+              description: 'small',
+              age: 2,
+            },
+          ],
+        },
       },
       title = 'Welcome here!',
     } = this.props;
@@ -117,15 +128,34 @@ class Home extends React.PureComponent<Props, State> {
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
         <View>
-          {myCats.length ? (
+          {!myCats.length ? (
             <View>
-              <Titles.H1 text={title} bold />
-              {/* <View style={styles.grow} /> */}
-              <MainButton
-                theme={themeOfButton}
-                text="Start"
-                testID={_.uniqueId()}
-                customButtonStyle={styles.mainButton}
+              <Titles.H1 text={stringsCat.REGISTER_HAVE_CATS_TITLE} bold />
+              <Titles.H2 text={stringsCat.REGISTER_HAVE_CATS_SUBTIBLE} bold />
+              <FlatList
+                data={[
+                  {
+                    id: 'cat-1',
+                    name: 'fito',
+                    breed: 'siames',
+                    description: 'small',
+                    age: 2,
+                  },
+                ]}
+                renderItem={cat => (
+                  <StepButton
+                    customButtonStyle={styles.pendingStepButton}
+                    showLeftIcon
+                    leftIcon={{
+                      ...icons.CLOCK,
+                      color: colors.DARK_GRAY,
+                      size: 22,
+                    }}
+                    theme="cream"
+                    text={`${cat.item.name} ${cat.item.breed} ${cat.item.age}`}
+                    customTextStyle={styles.stepButtonText}
+                  />
+                )}
               />
             </View>
           ) : (
@@ -148,14 +178,14 @@ class Home extends React.PureComponent<Props, State> {
                     picture: imagePlacement,
                   }}
                   validationSchema={catRegisterSchema}
-                  onSubmit={this.handleRegisterCat}>
+                  onSubmit={this.handleRegisterCatMethod}>
                   {props => (
                     <View>
                       <View style={styles.firstSectionHeaderStyle}>
                         <ProfilePicture
                           image={imagePlacement}
                           onImageSelected={() =>
-                            this.selectProfileImage('profilePicture')
+                            this.selectProfileImage('picture')
                           }
                         />
                       </View>
@@ -179,14 +209,14 @@ class Home extends React.PureComponent<Props, State> {
                           onBlur={props.handleBlur('age')}
                           type="numeric"
                           label={stringsCat.REGISTER_CAT_AGE_TEXT}
-                          hasError={!!props.errors.breed}
+                          hasError={!!props.errors.age}
                         />
                         <Input
                           onChange={props.handleChange('description')}
                           onBlur={props.handleBlur('description')}
                           type="normal"
                           label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
-                          hasError={!!props.errors.breed}
+                          hasError={!!props.errors.description}
                         />
                       </View>
                       <View style={styles.buttonContainer}>

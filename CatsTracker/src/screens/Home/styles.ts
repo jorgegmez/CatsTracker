@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
+  headerCat: {
+    width: 40,
+    height: 40,
+  },
   customTextStyle,
   mainButton,
 });
