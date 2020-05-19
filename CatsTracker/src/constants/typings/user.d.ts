@@ -1,4 +1,5 @@
 type CatPet = {
+  id: string;
   name: string;
   breed: string;
   description: string;

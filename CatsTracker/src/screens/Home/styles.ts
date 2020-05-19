@@ -1,74 +1,61 @@
-import {StyleSheet, Platform} from 'react-native';
-import {colorsGlobal as colors} from '@constants';
+import {StyleSheet, Platform, TextStyle} from 'react-native';
 
-/*
- * the background color and the border
- * these are only for development time
- */
+const customTextStyle: TextStyle = {
+  shadowOffset: {
+    height: 0,
+    width: 0,
+  },
+  justifyContent: 'center',
+  width: '90%',
+  borderRadius: 5,
+  shadowOpacity: 0.2,
+  shadowColor: '#000',
+  elevation: 1,
+  flexDirection: 'column',
+  alignSelf: 'center',
+  marginTop: 20,
+};
 
-const customWidth = Platform.OS === 'ios' ? '140%' : '80%';
+const mainButton: TextStyle = {
+  width: '100%',
+  alignSelf: 'center',
+  paddingHorizontal: 20,
+};
 
 const styles = StyleSheet.create({
-  // use this style for a header with basic configuration
-  headerTitle: {
-    color: colors.WHITE,
-    textAlign: 'center',
-    width: customWidth,
-  },
-  // use this style for OMNI logo
-  headerOMNI: {
-    height: 60,
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  // use this style for left and/or right header
-  headerIcons: {
-    paddingHorizontal: 10,
-  },
-  // used for iPhone X and greater
   safeArea: {
     flex: 1,
-    borderWidth: 5,
-    borderColor: 'red',
-    backgroundColor: 'pink',
-  },
-  // use to take 100% of the height of the container
-  scrollView: {
-    borderWidth: 5,
-    borderColor: 'green',
-    backgroundColor: 'cyan',
-    flexGrow: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  // use to take 100% of the height of the container
-  content: {
-    borderWidth: 5,
-    borderColor: 'blue',
-    backgroundColor: 'lightgray',
-    flexGrow: 1,
-    alignItems: 'center',
-    padding: 20,
-  },
-  // use to push elements to the bottom of the container
-  grow: {
-    borderWidth: 5,
-    borderColor: 'orange',
-    backgroundColor: 'yellow',
-    flexGrow: 1,
     width: '100%',
-  },
-  mainButton: {
-    height: 55,
   },
   sadCat: {
     justifyContent: 'center',
     alignSelf: 'center',
-    width: 300,
-    height: 300,
+    width: 150,
+    height: 150,
   },
-
-  // put your style after this line
+  firstSectionHeaderStyle: {
+    width: '100%',
+    alignSelf: 'center',
+    flexDirection: 'column',
+    marginVertical: 20,
+    marginBottom: 50,
+  },
+  secondSectionHeaderStyle: {
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  marginBottom: {
+    width: '70%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    width: '100%',
+    alignSelf: 'center',
+  },
+  customTextStyle,
+  mainButton,
 });
 
 export default styles;

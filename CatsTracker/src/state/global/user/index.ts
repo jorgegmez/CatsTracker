@@ -34,6 +34,15 @@ const reducer = (state: UserStateModel = initialState, action: Action) => {
         },
       };
 
+    case actions.REGISTER_CAT_INFO:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          myCats: action.payload,
+        },
+      };
+
     default:
       return state;
   }

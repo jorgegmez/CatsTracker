@@ -17,7 +17,16 @@ export const initialState: CatStateModel = {
 
 const reducer = (state: CatStateModel = initialState, action: Action) => {
   switch (action.type) {
-    case actions.REGISTER_CAT_INFO:
+    case actions.SET_CAT_PICTURE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.payload,
+        },
+      };
+
+    case actions.UPDATE_CURRENT_CAT_INFO:
       return {
         ...state,
         data: {

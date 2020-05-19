@@ -10,6 +10,7 @@ import Titles from './Titles/Titles';
 import StepButton from './StepButton';
 import Card from './Card';
 import Loading from './Loading';
+import RegisterForm from './RegisterForm';
 
 export {
   BodyText,
@@ -24,4 +25,5 @@ export {
   StepButton,
   Card,
   Loading,
+  RegisterForm,
 };

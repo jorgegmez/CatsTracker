@@ -1,7 +1,7 @@
 import * as core from './core';
 
 import {NavigationActions} from 'react-navigation';
-import {routesHome} from '@constants';
+import {routesHome, routesCats} from '@constants';
 
 const goToHome = () => {
   core.getTopLevelNavigator().dispatch(
@@ -17,9 +17,9 @@ const goToCatsHome = (stepNumber = 1, params?: UserStateModel) => {
     case 0:
       routeName = routesHome.HOME;
       break;
-    // case 1:
-    //   routeName = routesAuth.AUTH_REGISTER;
-    //   break;
+    case 1:
+      routeName = routesCats.REGISTER_CAT;
+      break;
     default:
       routeName = routesHome.HOME;
   }

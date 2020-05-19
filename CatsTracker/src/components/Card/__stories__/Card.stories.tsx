@@ -1,8 +1,8 @@
 import Card from '../';
 
 import React from 'react';
-import { View, Text } from 'react-native';
-import { storiesOf } from '@storybook/react-native';
+import {View, Text} from 'react-native';
+import {storiesOf} from '@storybook/react-native';
 
 storiesOf('Card', module)
   .add('Card required props', () => (

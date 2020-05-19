@@ -7,8 +7,14 @@ export const registerUserInfoAction = (payload: UpdateUserStateModel) => (
   dispatch(actionCreators.registerUserInfo(payload));
 };
 
-export const setUserProfilePictureAction = (payload: UpdateUserStateModel) => (
+export const setUserProfilePictureAction = (payload?: UpdateUserStateModel) => (
   dispatch: Dispatch,
 ) => {
   dispatch(actionCreators.setUserProfilePicture(payload));
+};
+
+export const registerCatInfoRegisterAction = (payload: CatPet[]) => (
+  dispatch: Dispatch,
+) => {
+  dispatch(actionCreators.registerCatInfo(payload));
 };

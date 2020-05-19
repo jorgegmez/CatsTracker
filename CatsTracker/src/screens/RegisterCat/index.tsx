@@ -2,23 +2,21 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
 import {Formik} from 'formik';
-import {colorsGlobal as colors, stringsAuth, imagesGlobal} from '@constants';
+import {colorsGlobal as colors, imagesGlobal, stringsCat} from '@constants';
 import {
   Titles,
   MainButton,
-  Card,
   Input,
   ProfilePicture,
   Loading,
+  RegisterForm,
 } from '@components';
-import {
-  setUserProfilePictureAction,
-  registerUserInfoAction,
-} from '@state/global/user/actions';
-import {NavigationService} from '@services';
+import {registerCatInfoRegisterAction} from '@state/global/user/actions';
 import {handleSelectProfileImage} from '@helpers/handlerProfilePicture';
+import {handleRegisterCat} from '@helpers/handlerCatsData';
 import _ from 'lodash';
-import {identifySchema} from './schema';
+import {catRegisterSchema} from '../Home/schema';
+import * as userSelectors from '@state/global/user/selector';
 
 import styles from './styles';
 
@@ -30,16 +28,16 @@ type State = {
 };
 
 type Props = {
-  setUserProfilePicture: (image: UpdateUserStateModel) => void;
-  registerUserInfo: (user: UpdateUserStateModel) => void;
+  userInfo: UserStateModel;
+  registerCatInfoRegister: (cats: CatPet[]) => void;
 };
 
-class IdentifyUser extends React.PureComponent<Props, State> {
+class RegisterCat extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerTitle: () => (
       <Titles.H3
         customStyle={styles.headerNav}
-        text={stringsAuth.AUTH_IDENTIFY_NAV_TEXT}
+        text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
       />
     ),
   };
@@ -52,12 +50,9 @@ class IdentifyUser extends React.PureComponent<Props, State> {
   };
 
   private selectProfileImage = async (fileName?: string) => {
-    const {setUserProfilePicture} = this.props;
     const {setProfilePicture} = this.state;
     const imageFile = handleSelectProfileImage({
       fileName,
-      setProfilePicture: setUserProfilePicture,
-      isHuman: true,
     });
 
     if (imageFile) {
@@ -76,15 +71,27 @@ class IdentifyUser extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleIdentifyUser = async ({
+  public handleRegisterCat = async ({
+    id,
     name,
-    lastName,
-    profilePicture,
-  }: UpdateUserStateModel) => {
-    const {registerUserInfo} = this.props;
-    if (name && lastName && profilePicture)
-      registerUserInfo({name, lastName, profilePicture});
-    NavigationService.home.goToHome();
+    breed,
+    age,
+    description,
+    picture,
+  }: CatPet) => {
+    const {
+      registerCatInfoRegister,
+      userInfo: {
+        data: {myCats},
+      },
+    } = this.props;
+    if (name && breed && age && description && picture) {
+      const cats = handleRegisterCat(
+        {id, name, breed, age, description, picture},
+        myCats,
+      );
+      registerCatInfoRegister(cats);
+    }
   };
 
   render() {
@@ -103,20 +110,20 @@ class IdentifyUser extends React.PureComponent<Props, State> {
           contentContainerStyle={styles.scrollView}>
           <Formik
             initialValues={{
+              id: '',
               name: '',
-              lastName: '',
-              profilePicture: imagePlacement,
+              breed: '',
+              age: 0,
+              description: '',
+              picture: imagePlacement,
             }}
-            validationSchema={identifySchema}
-            onSubmit={this.handleIdentifyUser}>
+            validationSchema={catRegisterSchema}
+            onSubmit={this.handleRegisterCat}>
             {props => (
               <View style={styles.content}>
-                <Titles.H2
-                  customStyle={styles.headerTitle}
-                  text={stringsAuth.AUTH_TITLE_TEXT}
-                  bold
-                />
-                <Card customTextStyle={styles.customTextStyle} theme="white">
+                <RegisterForm
+                  customTextStyle={styles.customTextStyle}
+                  theme="white">
                   <View style={styles.firstSectionHeaderStyle}>
                     <ProfilePicture
                       image={imagePlacement}
@@ -130,22 +137,36 @@ class IdentifyUser extends React.PureComponent<Props, State> {
                       onChange={props.handleChange('name')}
                       onBlur={props.handleBlur('name')}
                       type="normal"
-                      label={stringsAuth.REGISTER_USER_NAME_TEXT}
+                      label={stringsCat.REGISTER_CAT_NAME_TEXT}
                       hasError={!!props.errors.name}
                     />
                     <Input
-                      onChange={props.handleChange('lastName')}
-                      onBlur={props.handleBlur('lastName')}
+                      onChange={props.handleChange('breed')}
+                      onBlur={props.handleBlur('breed')}
                       type="normal"
-                      label={stringsAuth.REGISTER_USER_LASTNAME_TEXT}
-                      hasError={!!props.errors.lastName}
+                      label={stringsCat.REGISTER_CAT_BREED_TEXT}
+                      hasError={!!props.errors.breed}
+                    />
+                    <Input
+                      onChange={props.handleChange('age')}
+                      onBlur={props.handleBlur('age')}
+                      type="numeric"
+                      label={stringsCat.REGISTER_CAT_AGE_TEXT}
+                      hasError={!!props.errors.breed}
+                    />
+                    <Input
+                      onChange={props.handleChange('description')}
+                      onBlur={props.handleBlur('description')}
+                      type="normal"
+                      label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
+                      hasError={!!props.errors.breed}
                     />
                   </View>
-                </Card>
+                </RegisterForm>
                 <View style={styles.grow} />
                 <MainButton
                   theme={themeOfButton}
-                  text={stringsAuth.AUTH__IDENTIFY_BUTTON_TEXT}
+                  text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
                   testID={_.uniqueId()}
                   customButtonStyle={styles.mainButton}
                   onPress={props.handleSubmit}
@@ -160,11 +181,13 @@ class IdentifyUser extends React.PureComponent<Props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
-  setUserProfilePicture: (imageUrl: UpdateUserStateModel) =>
-    dispatch(setUserProfilePictureAction(imageUrl)),
-  registerUserInfo: (data: UpdateUserStateModel) =>
-    dispatch(registerUserInfoAction(data)),
+const mapStateToProps = (state: RootState) => ({
+  userInfo: userSelectors.UserSelector(state),
 });
 
-export default connect(null, mapDispatchToProps)(IdentifyUser);
+const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
+  registerCatInfoRegister: (data: CatPet[]) =>
+    dispatch(registerCatInfoRegisterAction(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterCat);

@@ -1,8 +1,14 @@
 import {Dispatch} from 'redux';
 import * as actionCreators from './action-creators';
 
-export const registerCatInfoRegister = (payload: CatStateModel) => (
+export const setCatPictureAction = (payload?: UpdateCatStateModel) => (
   dispatch: Dispatch,
 ) => {
-  dispatch(actionCreators.registerCatInfo(payload));
+  dispatch(actionCreators.setCatPicture(payload));
+};
+
+export const updateCurrentCatAction = (payload?: UpdateCatStateModel) => (
+  dispatch: Dispatch,
+) => {
+  dispatch(actionCreators.updateCurrentCat(payload));
 };

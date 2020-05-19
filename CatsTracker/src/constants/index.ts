@@ -24,7 +24,7 @@ import {
   auth as stringsAuth,
   cat as stringsCat,
   user as stringsUser,
-  validations as stringValidation,
+  validations,
   home as stringsHome,
 } from './strings';
 
@@ -47,7 +47,7 @@ export {
   stringsAuth,
   stringsCat,
   stringsUser,
-  stringValidation,
+  validations,
   stringsHome,
   colorsGlobal,
   imagesGlobal,

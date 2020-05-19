@@ -1,20 +1,17 @@
-import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
-import {Dimensions, Image} from 'react-native';
-import {
-  routesHome,
-  colorsGlobal as colors,
-  imagesGlobal as images,
-} from '@constants';
+import {Dimensions} from 'react-native';
+import {routesHome, routesCats, colorsGlobal as colors} from '@constants';
 
 import Home from '@screens/Home';
+import RegisterCat from '@screens/RegisterCat';
 
 const {width} = Dimensions.get('window');
 
 const CatsStack = createStackNavigator(
   {
     [routesHome.HOME]: Home,
+    [routesCats.REGISTER_CAT]: RegisterCat,
   },
   {
     initialRouteName: routesHome.HOME,

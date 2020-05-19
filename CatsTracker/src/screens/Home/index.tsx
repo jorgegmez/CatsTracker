@@ -1,83 +1,211 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar, View, Image} from 'react-native';
+import {SafeAreaView, StatusBar, View, Image} from 'react-native';
 import {connect} from 'react-redux';
+import {Formik} from 'formik';
+import _ from 'lodash';
 import {
   colorsGlobal as colors,
   imagesGlobal as images,
   stringsHome,
-  icons,
   imagesGlobal,
+  stringsCat,
 } from '@constants';
-import {Titles, MainButton, Icon} from '@components';
+import {
+  Titles,
+  MainButton,
+  CustomHeader,
+  Loading,
+  RegisterForm,
+  Input,
+  ProfilePicture,
+} from '@components';
+import {handleSelectProfileImage} from '@helpers/handlerProfilePicture';
+import {registerCatInfoRegisterAction} from '@state/global/user/actions';
 import * as userSelectors from '@state/global/user/selector';
-import _ from 'lodash';
+import {handleRegisterCat} from '@helpers/handlerCatsData';
+import {catRegisterSchema} from './schema';
 
 import styles from './styles';
+import {ScrollView} from 'react-native-gesture-handler';
 
-// e.g.: definition of properties
 type Props = {
   titleScreen: string;
   title: string;
   userInfo: UserStateModel;
+  catInfo: CatStateModel;
+  registerCatInfoRegister: (cat: CatPet[]) => void;
 };
 
-// e.g.: definition of state
 type State = {
   themeOfButton: 'blue' | 'white' | 'gray';
+  userProfileImage?: string;
+  setProfilePicture: boolean;
+  loading: boolean;
 };
 
 class Home extends React.PureComponent<Props, State> {
-  // navigation header
   static navigationOptions = {
-    headerTitle: () => <Image source={images.CAT} style={styles.headerOMNI} />,
+    headerTitle: () => <Image source={images.CAT} style={styles.headerCat} />,
   };
 
-  // e.g.: initialization of state values
   state: State = {
     themeOfButton: 'blue',
+    userProfileImage: '',
+    setProfilePicture: false,
+    loading: false,
+  };
+
+  private selectProfileImage = async (fileName?: string) => {
+    const {setProfilePicture} = this.state;
+    const imageFile = handleSelectProfileImage({
+      fileName,
+    });
+
+    if (imageFile) {
+      this.setThumbnailImage(await imageFile);
+      this.setState({
+        loading: false,
+        setProfilePicture: !setProfilePicture,
+      });
+    }
+  };
+
+  private setThumbnailImage = (imageUri?: string) => {
+    this.setState({
+      loading: true,
+      userProfileImage: imageUri,
+    });
+  };
+
+  public handleRegisterCat = async ({
+    id,
+    name,
+    breed,
+    age,
+    description,
+    picture,
+  }: CatPet) => {
+    const {
+      registerCatInfoRegister,
+      userInfo: {
+        data: {myCats},
+      },
+    } = this.props;
+    if (name && breed && age && description && picture) {
+      const cats = handleRegisterCat(
+        {id, name, breed, age, description, picture},
+        myCats,
+      );
+      registerCatInfoRegister(cats);
+    }
   };
 
   render() {
-    const {themeOfButton} = this.state;
+    const {themeOfButton, userProfileImage, loading} = this.state;
     const {
       userInfo: {
         data: {myCats = []},
       },
       title = 'Welcome here!',
     } = this.props;
+    const imagePlacement = userProfileImage
+      ? {
+          uri: userProfileImage,
+        }
+      : imagesGlobal.ICON_CAT_AVATAR;
     return (
-      // SafeAreaView is required for iPhone X and greater
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <ScrollView
-          alwaysBounceVertical={false}
-          bounces={false}
-          contentContainerStyle={styles.scrollView}>
-          {/* put your components after this view */}
-          <View style={styles.content}>
-            {myCats.length ? (
-              <View>
-                <Titles.H1 text={title} bold />
-
-                {/* this view push all the component to the bottom */}
-                <View style={styles.grow} />
-                {/* button on the bottom */}
-                <MainButton
-                  theme={themeOfButton}
-                  text="Start"
-                  testID={_.uniqueId()}
-                  customButtonStyle={styles.mainButton}
-                />
-              </View>
-            ) : (
-              <View>
-                <Image source={imagesGlobal.ICON_SAD_CAT} style={styles.sadCat} />
-                <Titles.H2 text={stringsHome.HOME_NO_CATS_TITLE_TEXT} bold />
-                <Titles.H3 text={stringsHome.HOME_NO_CATS_SUBTITLE_TEXT} bold />
-              </View>
-            )}
-          </View>
-        </ScrollView>
+        <View>
+          {myCats.length ? (
+            <View>
+              <Titles.H1 text={title} bold />
+              {/* <View style={styles.grow} /> */}
+              <MainButton
+                theme={themeOfButton}
+                text="Start"
+                testID={_.uniqueId()}
+                customButtonStyle={styles.mainButton}
+              />
+            </View>
+          ) : (
+            <ScrollView bounces={false}>
+              <CustomHeader
+                logo={imagesGlobal.ICON_SAD_CAT}
+                title={stringsHome.HOME_NO_CATS_TITLE_TEXT}
+                info={stringsHome.HOME_NO_CATS_SUBTITLE_TEXT}
+              />
+              <RegisterForm
+                customTextStyle={styles.customTextStyle}
+                theme="white">
+                <Formik
+                  initialValues={{
+                    id: '',
+                    name: '',
+                    breed: '',
+                    age: 0,
+                    description: '',
+                    picture: imagePlacement,
+                  }}
+                  validationSchema={catRegisterSchema}
+                  onSubmit={this.handleRegisterCat}>
+                  {props => (
+                    <View>
+                      <View style={styles.firstSectionHeaderStyle}>
+                        <ProfilePicture
+                          image={imagePlacement}
+                          onImageSelected={() =>
+                            this.selectProfileImage('profilePicture')
+                          }
+                        />
+                      </View>
+                      <View style={styles.secondSectionHeaderStyle}>
+                        <Input
+                          onChange={props.handleChange('name')}
+                          onBlur={props.handleBlur('name')}
+                          type="normal"
+                          label={stringsCat.REGISTER_CAT_NAME_TEXT}
+                          hasError={!!props.errors.name}
+                        />
+                        <Input
+                          onChange={props.handleChange('breed')}
+                          onBlur={props.handleBlur('breed')}
+                          type="normal"
+                          label={stringsCat.REGISTER_CAT_BREED_TEXT}
+                          hasError={!!props.errors.breed}
+                        />
+                        <Input
+                          onChange={props.handleChange('age')}
+                          onBlur={props.handleBlur('age')}
+                          type="numeric"
+                          label={stringsCat.REGISTER_CAT_AGE_TEXT}
+                          hasError={!!props.errors.breed}
+                        />
+                        <Input
+                          onChange={props.handleChange('description')}
+                          onBlur={props.handleBlur('description')}
+                          type="normal"
+                          label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
+                          hasError={!!props.errors.breed}
+                        />
+                      </View>
+                      <View style={styles.buttonContainer}>
+                        <MainButton
+                          theme={themeOfButton}
+                          text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                          testID={_.uniqueId()}
+                          customButtonStyle={styles.mainButton}
+                          onPress={props.handleSubmit}
+                        />
+                      </View>
+                    </View>
+                  )}
+                </Formik>
+              </RegisterForm>
+            </ScrollView>
+          )}
+        </View>
+        <Loading showModal={loading} />
       </SafeAreaView>
     );
   }
@@ -87,4 +215,9 @@ const mapStateToProps = (state: RootState) => ({
   userInfo: userSelectors.UserSelector(state),
 });
 
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
+  registerCatInfoRegister: (pet: CatPet[]) =>
+    dispatch(registerCatInfoRegisterAction(pet)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
