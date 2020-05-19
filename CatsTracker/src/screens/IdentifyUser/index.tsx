@@ -119,6 +119,7 @@ class IdentifyUser extends React.PureComponent<Props, State> {
                 <Card customTextStyle={styles.customTextStyle} theme="white">
                   <View style={styles.firstSectionHeaderStyle}>
                     <ProfilePicture
+                      showEditIcon
                       image={imagePlacement}
                       onImageSelected={() =>
                         this.selectProfileImage('profilePicture')
