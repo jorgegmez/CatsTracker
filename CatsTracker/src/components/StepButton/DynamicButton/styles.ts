@@ -1,5 +1,5 @@
-import {colorsGlobal as colors} from '@constants';
-import {StyleSheet} from 'react-native';
+import { colorsGlobal as colors } from '@constants';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -30,9 +30,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   leftComponents: {
+    width: '80%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    flex: 10,
+  },
+  rigthComponents: {
+    width: '10%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     flex: 10,
   },
   text: {

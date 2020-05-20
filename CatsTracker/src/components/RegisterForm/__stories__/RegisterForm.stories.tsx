@@ -1,9 +1,9 @@
 import RegisterForm from '../';
-import {Input} from '@components';
+import { Input } from '@components';
 
 import React from 'react';
-import {View} from 'react-native';
-import {storiesOf} from '@storybook/react-native';
+import { View } from 'react-native';
+import { storiesOf } from '@storybook/react-native';
 
 storiesOf('RegisterForm', module)
   .add('RegisterForm required props', () => (

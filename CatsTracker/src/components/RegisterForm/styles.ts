@@ -1,9 +1,7 @@
-import {StyleSheet, Dimensions} from 'react-native';
-import {colorsGlobal as colors} from '../../constants';
+import { StyleSheet, Dimensions } from 'react-native';
+import { colorsGlobal as colors } from '../../constants';
 
-const smallDevice =
-  Dimensions.get('window').width <= 380 &&
-  Dimensions.get('window').height <= 550;
+const smallDevice = Dimensions.get('window').width <= 380 && Dimensions.get('window').height <= 550;
 
 const styles = StyleSheet.create({
   cardWhite: {
@@ -16,7 +14,7 @@ const styles = StyleSheet.create({
   },
   shadowCard: {
     shadowColor: colors.BLACK,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,

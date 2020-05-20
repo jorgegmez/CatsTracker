@@ -1,12 +1,9 @@
 import CustomHeader from '../';
 import React from 'react';
-import {storiesOf} from '@storybook/react-native';
+import { storiesOf } from '@storybook/react-native';
 
 storiesOf('CustomHeader', module).add('Required props CustomHeader', () => (
-  <CustomHeader
-    title="¡Bienvenido!"
-    info="¡Gracias por convertirte en nuestro socio!"
-  />
+  <CustomHeader title="¡Bienvenido!" info="¡Gracias por convertirte en nuestro socio!" />
 ));
 storiesOf('CustomHeader', module).add('With images', () => (
   <CustomHeader

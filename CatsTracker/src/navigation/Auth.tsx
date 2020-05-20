@@ -1,5 +1,5 @@
-import {colorsGlobal as colors, routesAuth as routes} from '@constants';
-import {createStackNavigator} from 'react-navigation-stack';
+import { colorsGlobal as colors, routesAuth as routes } from '@constants';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import IdentifyUser from '@screens/IdentifyUser';
 import AuthHome from '@screens/Auth';

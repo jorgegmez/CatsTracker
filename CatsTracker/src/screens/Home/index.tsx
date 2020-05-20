@@ -1,37 +1,21 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, View, Image, FlatList} from 'react-native';
-import {connect} from 'react-redux';
-import {Formik} from 'formik';
+import { SafeAreaView, StatusBar, View, Image, FlatList } from 'react-native';
+import { connect } from 'react-redux';
+import { Formik } from 'formik';
 import _ from 'lodash';
-import {
-  colorsGlobal as colors,
-  imagesGlobal as images,
-  stringsHome,
-  imagesGlobal,
-  stringsCat,
-} from '@constants';
-import {
-  Titles,
-  MainButton,
-  CustomHeader,
-  Loading,
-  RegisterForm,
-  Input,
-  ProfilePicture,
-  StepButton,
-} from '@components';
-import {handleSelectProfileImage} from '@helpers/handlerProfilePicture';
-import {registerCatInfoRegisterAction} from '@state/global/user/actions';
+import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlobal, stringsCat, icons } from '@constants';
+import { Titles, MainButton, CustomHeader, Loading, RegisterForm, Input, ProfilePicture, StepButton, Icon } from '@components';
+import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
+import { registerCatInfoRegisterAction } from '@state/global/user/actions';
 import * as userSelectors from '@state/global/user/selector';
-import {handleRegisterCat} from '@helpers/handlerCatsData';
-import {catRegisterSchema} from './schema';
+import { handleRegisterCat } from '@helpers/handlerCatsData';
+import { catRegisterSchema } from './schema';
 
 import styles from './styles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = {
   titleScreen: string;
-  title: string;
   userInfo: UserStateModel;
   catInfo: CatStateModel;
   registerCatInfoRegister: (cat: CatPet[]) => void;
@@ -47,6 +31,7 @@ type State = {
 class Home extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerTitle: () => <Image source={images.CAT} style={styles.headerCat} />,
+    headerRigth: () => <Icon config={icons.HAMBURGER_MENU} />,
   };
 
   state: State = {
@@ -57,7 +42,7 @@ class Home extends React.PureComponent<Props, State> {
   };
 
   private selectProfileImage = async (fileName?: string) => {
-    const {setProfilePicture} = this.state;
+    const { setProfilePicture } = this.state;
     const imageFile = handleSelectProfileImage({
       fileName,
     });
@@ -78,31 +63,22 @@ class Home extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleRegisterCatMethod = async ({
-    name,
-    breed,
-    age,
-    description,
-    picture,
-  }: CatPet) => {
+  public handleRegisterCatMethod = async ({ name, breed, age, description, picture }: CatPet) => {
     const {
       registerCatInfoRegister,
       userInfo: {
-        data: {myCats},
+        data: { myCats },
       },
     } = this.props;
     console.log('handleRegisterCat --> name', name);
     if (name && breed && age && description && picture) {
-      const cats = handleRegisterCat(
-        {name, breed, age, description, picture},
-        myCats,
-      );
+      const cats = handleRegisterCat({ name, breed, age, description, picture }, myCats);
       registerCatInfoRegister(cats);
     }
   };
 
   render() {
-    const {themeOfButton, userProfileImage, loading} = this.state;
+    const { themeOfButton, userProfileImage, loading } = this.state;
     const {
       userInfo: {
         data: {
@@ -117,7 +93,6 @@ class Home extends React.PureComponent<Props, State> {
           ],
         },
       },
-      title = 'Welcome here!',
     } = this.props;
     const imagePlacement = userProfileImage
       ? {
@@ -130,33 +105,36 @@ class Home extends React.PureComponent<Props, State> {
         <View>
           {!myCats.length ? (
             <View>
-              <Titles.H1 text={stringsCat.REGISTER_HAVE_CATS_TITLE} bold />
-              <Titles.H2 text={stringsCat.REGISTER_HAVE_CATS_SUBTIBLE} bold />
-              <FlatList
-                data={[
-                  {
-                    id: 'cat-1',
-                    name: 'fito',
-                    breed: 'siames',
-                    description: 'small',
-                    age: 2,
-                  },
-                ]}
-                renderItem={cat => (
-                  <StepButton
-                    customButtonStyle={styles.pendingStepButton}
-                    showLeftIcon
-                    leftIcon={{
-                      ...icons.CLOCK,
-                      color: colors.DARK_GRAY,
-                      size: 22,
-                    }}
-                    theme="cream"
-                    text={`${cat.item.name} ${cat.item.breed} ${cat.item.age}`}
-                    customTextStyle={styles.stepButtonText}
-                  />
-                )}
-              />
+              <Titles.H1 customStyle={styles.homeHaveCatsSubTitle} text={stringsCat.REGISTER_HAVE_CATS_SUBTIBLE} bold />
+              <View style={styles.cardContainer}>
+                <FlatList
+                  data={[
+                    {
+                      id: 'cat-1',
+                      name: 'fito',
+                      breed: 'siames',
+                      description: 'small',
+                      age: 2,
+                      picture: imagesGlobal.ICON_CAT_AVATAR,
+                    },
+                  ]}
+                  renderItem={cat => (
+                    <StepButton
+                      sufixComponent={<Image style={styles.imageButton} source={cat.item.picture} />}
+                      customButtonStyle={styles.pendingStepButton}
+                      rigthIcon={{
+                        ...icons.ARROW_LEFT,
+                        color: colors.DARK_GRAY,
+                        size: 22,
+                      }}
+                      showRigthIcon
+                      theme="cream"
+                      text={`${cat.item.name}`}
+                      customTextStyle={styles.stepButtonText}
+                    />
+                  )}
+                />
+              </View>
             </View>
           ) : (
             <ScrollView bounces={false}>
@@ -165,9 +143,7 @@ class Home extends React.PureComponent<Props, State> {
                 title={stringsHome.HOME_NO_CATS_TITLE_TEXT}
                 info={stringsHome.HOME_NO_CATS_SUBTITLE_TEXT}
               />
-              <RegisterForm
-                customTextStyle={styles.customTextStyle}
-                theme="white">
+              <RegisterForm customTextStyle={styles.customTextStyle} theme="white">
                 <Formik
                   initialValues={{
                     id: '',
@@ -178,16 +154,12 @@ class Home extends React.PureComponent<Props, State> {
                     picture: imagePlacement,
                   }}
                   validationSchema={catRegisterSchema}
-                  onSubmit={this.handleRegisterCatMethod}>
+                  onSubmit={this.handleRegisterCatMethod}
+                >
                   {props => (
                     <View>
                       <View style={styles.firstSectionHeaderStyle}>
-                        <ProfilePicture
-                          image={imagePlacement}
-                          onImageSelected={() =>
-                            this.selectProfileImage('picture')
-                          }
-                        />
+                        <ProfilePicture image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
                       </View>
                       <View style={styles.secondSectionHeaderStyle}>
                         <Input
@@ -246,8 +218,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
-  registerCatInfoRegister: (pet: CatPet[]) =>
-    dispatch(registerCatInfoRegisterAction(pet)),
+  registerCatInfoRegister: (pet: CatPet[]) => dispatch(registerCatInfoRegisterAction(pet)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

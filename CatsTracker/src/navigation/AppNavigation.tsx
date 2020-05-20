@@ -1,5 +1,5 @@
-import {routesAuth, routesBoot, routesHome} from '@constants';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import { routesAuth, routesBoot, routesHome } from '@constants';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import Boot from '@screens/Global/Boot';
 import AuthStack from './Auth';

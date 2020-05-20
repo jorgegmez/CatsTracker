@@ -1,7 +1,4 @@
-import {
-  actionsCat as actions,
-  reducersNameCat as reducersName,
-} from '@constants';
+import { actionsCat as actions, reducersNameCat as reducersName } from '@constants';
 
 export const initialState: CatStateModel = {
   data: {
@@ -12,7 +9,7 @@ export const initialState: CatStateModel = {
     age: 0,
   },
   pending: false,
-  error: {ok: true, text: ''},
+  error: { ok: true, text: '' },
 };
 
 const reducer = (state: CatStateModel = initialState, action: Action) => {

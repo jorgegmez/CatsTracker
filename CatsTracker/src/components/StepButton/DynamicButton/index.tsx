@@ -1,5 +1,5 @@
-import React, {PureComponent, ReactNode} from 'react';
-import {TouchableOpacity, View, Text, TextStyle} from 'react-native';
+import React, { PureComponent, ReactNode } from 'react';
+import { TouchableOpacity, View, Text, TextStyle } from 'react-native';
 import Icon from '../../Icon';
 import styles from './styles';
 
@@ -11,7 +11,7 @@ type Props = {
   readonly customIconStyle?: TextStyle[] | TextStyle;
   onPress?(): void;
   theme?: 'cream' | 'white';
-  leftIcon?: IconConfig;
+  rigthIcon?: IconConfig;
   disabled?: boolean;
   touched?: boolean;
   error?: string;
@@ -22,7 +22,7 @@ type Props = {
 
 class DynamicButton extends PureComponent<Props> {
   getLayoutStyles = () => {
-    const {sufixComponent} = this.props;
+    const { sufixComponent } = this.props;
     if (sufixComponent) {
       return styles.buttonContainer;
     }
@@ -36,43 +36,28 @@ class DynamicButton extends PureComponent<Props> {
       customTextStyle,
       customIconStyle,
       onPress,
-      leftIcon,
+      rigthIcon,
       sufixComponent = null,
       touched,
       error,
       text,
       testID,
       disabled,
-      showLeftIcon,
-      showSUfixOnTheLeft = false,
+      showRigthIcon,
     } = this.props;
     return (
       <TouchableOpacity
-        style={[
-          styles.buttonCommon,
-          theme === 'cream' && styles.buttonCream,
-          theme === 'white' && styles.buttonWhite,
-          customButtonStyle,
-        ]}
+        style={[styles.buttonCommon, theme === 'cream' && styles.buttonCream, theme === 'white' && styles.buttonWhite, customButtonStyle]}
         onPress={onPress}
         testID={testID}
-        disabled={disabled}>
+        disabled={disabled}
+      >
         <View style={this.getLayoutStyles()}>
-          {sufixComponent && showSUfixOnTheLeft && (
-            <View style={styles.rightComponentContainer}>{sufixComponent}</View>
-          )}
-          <View style={styles.leftComponents}>
-            {leftIcon && showLeftIcon && (
-              <Icon
-                config={leftIcon}
-                style={[styles.icon, customIconStyle as TextStyle]}
-              />
-            )}
-            {text && <Text style={[styles.text, customTextStyle]}>{text}</Text>}
+          {sufixComponent && <View style={styles.rightComponentContainer}>{sufixComponent}</View>}
+          <View style={styles.leftComponents}>{text && <Text style={[styles.text, customTextStyle]}>{text}</Text>}</View>
+          <View style={styles.rigthComponents}>
+            {rigthIcon && showRigthIcon && <Icon config={rigthIcon} style={[styles.icon, customIconStyle as TextStyle]} />}
           </View>
-          {sufixComponent && !showSUfixOnTheLeft && (
-            <View style={styles.rightComponentContainer}>{sufixComponent}</View>
-          )}
         </View>
         {error && touched && <Text style={styles.errorMessage}>{error}</Text>}
       </TouchableOpacity>

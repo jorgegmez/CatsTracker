@@ -1,21 +1,14 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
-import {Formik} from 'formik';
-import {colorsGlobal as colors, imagesGlobal, stringsCat} from '@constants';
-import {
-  Titles,
-  MainButton,
-  Input,
-  ProfilePicture,
-  Loading,
-  RegisterForm,
-} from '@components';
-import {registerCatInfoRegisterAction} from '@state/global/user/actions';
-import {handleSelectProfileImage} from '@helpers/handlerProfilePicture';
-import {handleRegisterCat} from '@helpers/handlerCatsData';
+import { connect } from 'react-redux';
+import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { Formik } from 'formik';
+import { colorsGlobal as colors, imagesGlobal, stringsCat } from '@constants';
+import { Titles, MainButton, Input, ProfilePicture, Loading, RegisterForm } from '@components';
+import { registerCatInfoRegisterAction } from '@state/global/user/actions';
+import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
+import { handleRegisterCat } from '@helpers/handlerCatsData';
 import _ from 'lodash';
-import {catRegisterSchema} from '../Home/schema';
+import { catRegisterSchema } from '../Home/schema';
 import * as userSelectors from '@state/global/user/selector';
 
 import styles from './styles';
@@ -34,12 +27,7 @@ type Props = {
 
 class RegisterCat extends React.PureComponent<Props, State> {
   static navigationOptions = {
-    headerTitle: () => (
-      <Titles.H3
-        customStyle={styles.headerNav}
-        text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
-      />
-    ),
+    headerTitle: () => <Titles.H3 customStyle={styles.headerNav} text={stringsCat.REGISTER_CAT_BUTTON_TEXT} />,
   };
 
   state: State = {
@@ -50,7 +38,7 @@ class RegisterCat extends React.PureComponent<Props, State> {
   };
 
   private selectProfileImage = async (fileName?: string) => {
-    const {setProfilePicture} = this.state;
+    const { setProfilePicture } = this.state;
     const imageFile = handleSelectProfileImage({
       fileName,
     });
@@ -71,31 +59,21 @@ class RegisterCat extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleRegisterCat = async ({
-    id,
-    name,
-    breed,
-    age,
-    description,
-    picture,
-  }: CatPet) => {
+  public handleRegisterCat = async ({ id, name, breed, age, description, picture }: CatPet) => {
     const {
       registerCatInfoRegister,
       userInfo: {
-        data: {myCats},
+        data: { myCats },
       },
     } = this.props;
     if (name && breed && age && description && picture) {
-      const cats = handleRegisterCat(
-        {id, name, breed, age, description, picture},
-        myCats,
-      );
+      const cats = handleRegisterCat({ id, name, breed, age, description, picture }, myCats);
       registerCatInfoRegister(cats);
     }
   };
 
   render() {
-    const {themeOfButton, userProfileImage, loading} = this.state;
+    const { themeOfButton, userProfileImage, loading } = this.state;
     const imagePlacement = userProfileImage
       ? {
           uri: userProfileImage,
@@ -104,10 +82,7 @@ class RegisterCat extends React.PureComponent<Props, State> {
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <ScrollView
-          alwaysBounceVertical={false}
-          bounces={false}
-          contentContainerStyle={styles.scrollView}>
+        <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
           <Formik
             initialValues={{
               id: '',
@@ -118,19 +93,13 @@ class RegisterCat extends React.PureComponent<Props, State> {
               picture: imagePlacement,
             }}
             validationSchema={catRegisterSchema}
-            onSubmit={this.handleRegisterCat}>
+            onSubmit={this.handleRegisterCat}
+          >
             {props => (
               <View style={styles.content}>
-                <RegisterForm
-                  customTextStyle={styles.customTextStyle}
-                  theme="white">
+                <RegisterForm customTextStyle={styles.customTextStyle} theme="white">
                   <View style={styles.firstSectionHeaderStyle}>
-                    <ProfilePicture
-                      image={imagePlacement}
-                      onImageSelected={() =>
-                        this.selectProfileImage('profilePicture')
-                      }
-                    />
+                    <ProfilePicture image={imagePlacement} onImageSelected={() => this.selectProfileImage('profilePicture')} />
                   </View>
                   <View style={styles.secondSectionHeaderStyle}>
                     <Input
@@ -186,8 +155,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
-  registerCatInfoRegister: (data: CatPet[]) =>
-    dispatch(registerCatInfoRegisterAction(data)),
+  registerCatInfoRegister: (data: CatPet[]) => dispatch(registerCatInfoRegisterAction(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterCat);

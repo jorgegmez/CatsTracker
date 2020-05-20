@@ -1,7 +1,7 @@
-import {Text, TextInput, TextInputProps, TextStyle, View} from 'react-native';
-import {colorsGlobal as colors} from '@constants';
+import { Text, TextInput, TextInputProps, TextStyle, View } from 'react-native';
+import { colorsGlobal as colors } from '@constants';
 
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import styles from './styles';
 
 interface Props extends TextInputProps {
@@ -22,19 +22,7 @@ interface Props extends TextInputProps {
 
 class Input extends PureComponent<Props> {
   render() {
-    const {
-      label,
-      placeholder,
-      value,
-      allowCapitalizeCase,
-      onChange,
-      onBlur,
-      hasError,
-      labelStyles,
-      type,
-      maxLength,
-      testID,
-    } = this.props;
+    const { label, placeholder, value, allowCapitalizeCase, onChange, onBlur, hasError, labelStyles, type, maxLength, testID } = this.props;
     return (
       <View style={styles.container}>
         <Text style={[styles.inputTextLabel, labelStyles]}>{label}</Text>
@@ -44,7 +32,8 @@ class Input extends PureComponent<Props> {
             {
               borderBottomColor: hasError ? colors.ACCENT : colors.GREY,
             },
-          ]}>
+          ]}
+        >
           {type === 'numeric' && (
             <View style={styles.inputContainer}>
               <TextInput
@@ -55,10 +44,7 @@ class Input extends PureComponent<Props> {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={[
-                  styles.inputStyle,
-                  {color: hasError ? colors.BLACK : colors.PRIMARY},
-                ]}
+                style={[styles.inputStyle, { color: hasError ? colors.BLACK : colors.PRIMARY }]}
                 keyboardType="numeric"
               />
             </View>
@@ -75,10 +61,7 @@ class Input extends PureComponent<Props> {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={[
-                  styles.inputStyle,
-                  {color: hasError ? colors.BLACK : colors.PRIMARY},
-                ]}
+                style={[styles.inputStyle, { color: hasError ? colors.BLACK : colors.PRIMARY }]}
               />
             </View>
           )}

@@ -1,8 +1,8 @@
-import {Image, Text, View, ImageSourcePropType, TextStyle} from 'react-native';
+import { Image, Text, View, ImageSourcePropType, TextStyle } from 'react-native';
 
 import Button from '../MainButton';
 import ModalNative from 'react-native-modal';
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import styles from './styles';
 
 type Props = {
@@ -19,17 +19,7 @@ type Props = {
 
 class Modal extends PureComponent<Props> {
   render() {
-    const {
-      showModal,
-      icon,
-      title,
-      info,
-      textButtonOk,
-      onPressOk,
-      textButtonCancel,
-      onPressCancel,
-      customModalStyle,
-    } = this.props;
+    const { showModal, icon, title, info, textButtonOk, onPressOk, textButtonCancel, onPressCancel, customModalStyle } = this.props;
 
     return (
       <ModalNative isVisible={showModal}>
@@ -41,16 +31,8 @@ class Modal extends PureComponent<Props> {
             </View>
             <Text style={styles.textInfo}>{info}</Text>
             <View style={styles.containerButton}>
-              {onPressOk && (
-                <Button text={textButtonOk} theme="blue" onPress={onPressOk} />
-              )}
-              {onPressCancel && (
-                <Button
-                  text={`${textButtonCancel}`}
-                  theme="white"
-                  onPress={onPressCancel}
-                />
-              )}
+              {onPressOk && <Button text={textButtonOk} theme="blue" onPress={onPressOk} />}
+              {onPressCancel && <Button text={`${textButtonCancel}`} theme="white" onPress={onPressCancel} />}
             </View>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import {actionsCat as actions} from '@constants';
+import { actionsCat as actions } from '@constants';
 
 export const setCatPicture = (payload?: UpdateCatStateModel) => ({
   type: actions.SET_CAT_PICTURE,

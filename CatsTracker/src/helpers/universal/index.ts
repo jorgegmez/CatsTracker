@@ -1,3 +1,3 @@
 import DropDownHolder from './DropDownHolder';
 
-export default {DropDownHolder};
+export default { DropDownHolder };

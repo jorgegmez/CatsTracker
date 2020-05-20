@@ -1,9 +1,6 @@
 import _ from 'lodash';
 
-export const handleRegisterCat = (
-  {name, breed, age, description, picture}: CatPet,
-  myCats: CatPet[],
-) => {
+export const handleRegisterCat = ({ name, breed, age, description, picture }: CatPet, myCats: CatPet[]) => {
   const cats: CatPet[] = [...myCats];
   if (name && breed && age && description && picture) {
     const newCat: CatPet = {

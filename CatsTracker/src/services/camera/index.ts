@@ -1,5 +1,6 @@
-import ImagePicker, {ImagePickerResponse} from 'react-native-image-picker';
-import {queue} from '@constants';
+import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
+import { queue } from '@constants';
+import { setUserProfilePictureAction } from '@state/global/user/actions';
 
 // Custom options for the showImagePicker function. See API reference
 // https://github.com/react-native-community/react-native-image-picker
@@ -13,12 +14,10 @@ const options = {
   },
 };
 
-export const handleOpenGallery = async (
-  fileName: string,
-): Promise<QueueItem> => {
+export const handleOpenGallery = async (fileName: string): Promise<QueueItem> => {
   return new Promise((resolve, reject) => {
     ImagePicker.showImagePicker(options, (response: ImagePickerResponse) => {
-      const {error, type, uri} = response;
+      const { error, type, uri } = response;
       if (error) reject(error);
 
       // Add url string with cognito details
@@ -31,13 +30,15 @@ export const handleOpenGallery = async (
         queue: queue.REGISTER_QUEUE,
       };
       // call a helper method later
-      console.log(imageData);
+      console.log('from camera', imageData);
+      return imageData;
+      // setUserProfilePictureAction({ profilePicture: imageData.uri });
     });
   });
 };
 
 export function toBase64(imageFile: QueueItem): QueueItem {
-  const {type, file: base64Data} = imageFile;
+  const { type, file: base64Data } = imageFile;
   const formatString = `data:${type};base64,${base64Data}`;
-  return {...imageFile, file: formatString};
+  return { ...imageFile, file: formatString };
 }

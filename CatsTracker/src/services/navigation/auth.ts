@@ -1,7 +1,7 @@
 import * as core from './core';
 
-import {NavigationActions} from 'react-navigation';
-import {routesAuth} from '@constants';
+import { NavigationActions } from 'react-navigation';
+import { routesAuth } from '@constants';
 
 const goToIdentifyUser = (stepNumber = 1, params?: UserStateModel) => {
   let routeName = '';
@@ -26,4 +26,4 @@ const goToIdentifyUser = (stepNumber = 1, params?: UserStateModel) => {
   );
 };
 
-export {goToIdentifyUser};
+export { goToIdentifyUser };

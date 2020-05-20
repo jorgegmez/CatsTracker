@@ -1,6 +1,6 @@
-import {Titles} from '../';
+import { Titles } from '../';
 import React from 'react';
-import {storiesOf} from '@storybook/react-native';
+import { storiesOf } from '@storybook/react-native';
 
 storiesOf('Titles', module)
   // H1

@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 
-import {View, TextStyle} from 'react-native';
+import { View, TextStyle } from 'react-native';
 import styles from './styles';
 
 type Props = {
@@ -11,18 +11,8 @@ type Props = {
 
 class RegisterForm extends PureComponent<Props> {
   render() {
-    const {children, theme, customTextStyle} = this.props;
-    return (
-      <View
-        style={[
-          theme === 'white'
-            ? [styles.cardWhite, styles.shadowCard]
-            : styles.cardGrey,
-          customTextStyle,
-        ]}>
-        {children}
-      </View>
-    );
+    const { children, theme, customTextStyle } = this.props;
+    return <View style={[theme === 'white' ? [styles.cardWhite, styles.shadowCard] : styles.cardGrey, customTextStyle]}>{children}</View>;
   }
 }
 

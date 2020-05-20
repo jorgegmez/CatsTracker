@@ -5,13 +5,9 @@ export const removeQueueHead = (queue: QueueSchema): QueueSchema => ({
   items: queue.items.slice(1),
 });
 
-export const addQueueTail = (
-  queue: QueueSchema,
-  item: QueueItem,
-): QueueSchema => ({...queue, items: [...queue.items, item]});
+export const addQueueTail = (queue: QueueSchema, item: QueueItem): QueueSchema => ({ ...queue, items: [...queue.items, item] });
 
-export const isEndOfQueueTail = (queue: QueueSchema): boolean =>
-  queue.items.length <= 1;
+export const isEndOfQueueTail = (queue: QueueSchema): boolean => queue.items.length <= 1;
 
 export const retryQueueItem = (item: QueueItem): RetryQueueItem => {
   const updatedItem = item;

@@ -1,24 +1,14 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
-import {Formik} from 'formik';
-import {colorsGlobal as colors, stringsAuth, imagesGlobal} from '@constants';
-import {
-  Titles,
-  MainButton,
-  Card,
-  Input,
-  ProfilePicture,
-  Loading,
-} from '@components';
-import {
-  setUserProfilePictureAction,
-  registerUserInfoAction,
-} from '@state/global/user/actions';
-import {NavigationService} from '@services';
-import {handleSelectProfileImage} from '@helpers/handlerProfilePicture';
+import { connect } from 'react-redux';
+import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { Formik } from 'formik';
+import { colorsGlobal as colors, stringsAuth, imagesGlobal } from '@constants';
+import { Titles, MainButton, Card, Input, ProfilePicture, Loading } from '@components';
+import { setUserProfilePictureAction, registerUserInfoAction } from '@state/global/user/actions';
+import { NavigationService } from '@services';
+import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import _ from 'lodash';
-import {identifySchema} from './schema';
+import { identifySchema } from './schema';
 
 import styles from './styles';
 
@@ -36,12 +26,7 @@ type Props = {
 
 class IdentifyUser extends React.PureComponent<Props, State> {
   static navigationOptions = {
-    headerTitle: () => (
-      <Titles.H3
-        customStyle={styles.headerNav}
-        text={stringsAuth.AUTH_IDENTIFY_NAV_TEXT}
-      />
-    ),
+    headerTitle: () => <Titles.H3 customStyle={styles.headerNav} text={stringsAuth.AUTH_IDENTIFY_NAV_TEXT} />,
   };
 
   state: State = {
@@ -52,15 +37,13 @@ class IdentifyUser extends React.PureComponent<Props, State> {
   };
 
   private selectProfileImage = async (fileName?: string) => {
-    const {setUserProfilePicture} = this.props;
-    const {setProfilePicture} = this.state;
-    const imageFile = handleSelectProfileImage({
+    const { setProfilePicture } = this.state;
+    const imageFile = await handleSelectProfileImage({
       fileName,
-      setProfilePicture: setUserProfilePicture,
-      isHuman: true,
     });
-
+    console.log('selectProfileImage', imageFile);
     if (imageFile) {
+      console.log('selectProfileImage', imageFile);
       this.setThumbnailImage(await imageFile);
       this.setState({
         loading: false,
@@ -76,19 +59,14 @@ class IdentifyUser extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleIdentifyUser = async ({
-    name,
-    lastName,
-    profilePicture,
-  }: UpdateUserStateModel) => {
-    const {registerUserInfo} = this.props;
-    if (name && lastName && profilePicture)
-      registerUserInfo({name, lastName, profilePicture});
+  public handleIdentifyUser = async ({ name, lastName, profilePicture }: UpdateUserStateModel) => {
+    const { registerUserInfo } = this.props;
+    if (name && lastName && profilePicture) registerUserInfo({ name, lastName, profilePicture });
     NavigationService.home.goToHome();
   };
 
   render() {
-    const {themeOfButton, userProfileImage, loading} = this.state;
+    const { themeOfButton, userProfileImage, loading } = this.state;
     const imagePlacement = userProfileImage
       ? {
           uri: userProfileImage,
@@ -97,10 +75,7 @@ class IdentifyUser extends React.PureComponent<Props, State> {
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <ScrollView
-          alwaysBounceVertical={false}
-          bounces={false}
-          contentContainerStyle={styles.scrollView}>
+        <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
           <Formik
             initialValues={{
               name: '',
@@ -108,23 +83,14 @@ class IdentifyUser extends React.PureComponent<Props, State> {
               profilePicture: imagePlacement,
             }}
             validationSchema={identifySchema}
-            onSubmit={this.handleIdentifyUser}>
+            onSubmit={this.handleIdentifyUser}
+          >
             {props => (
               <View style={styles.content}>
-                <Titles.H2
-                  customStyle={styles.headerTitle}
-                  text={stringsAuth.AUTH_TITLE_TEXT}
-                  bold
-                />
+                <Titles.H2 customStyle={styles.headerTitle} text={stringsAuth.AUTH_TITLE_TEXT} bold />
                 <Card customTextStyle={styles.customTextStyle} theme="white">
                   <View style={styles.firstSectionHeaderStyle}>
-                    <ProfilePicture
-                      showEditIcon
-                      image={imagePlacement}
-                      onImageSelected={() =>
-                        this.selectProfileImage('profilePicture')
-                      }
-                    />
+                    <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('profilePicture')} />
                   </View>
                   <View style={styles.secondSectionHeaderStyle}>
                     <Input
@@ -162,10 +128,8 @@ class IdentifyUser extends React.PureComponent<Props, State> {
 }
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
-  setUserProfilePicture: (imageUrl: UpdateUserStateModel) =>
-    dispatch(setUserProfilePictureAction(imageUrl)),
-  registerUserInfo: (data: UpdateUserStateModel) =>
-    dispatch(registerUserInfoAction(data)),
+  setUserProfilePicture: (imageUrl: UpdateUserStateModel) => dispatch(setUserProfilePictureAction(imageUrl)),
+  registerUserInfo: (data: UpdateUserStateModel) => dispatch(registerUserInfoAction(data)),
 });
 
 export default connect(null, mapDispatchToProps)(IdentifyUser);

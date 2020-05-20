@@ -1,7 +1,7 @@
-import React, {ReactNode} from 'react';
-import {TextStyle, Linking} from 'react-native';
-import {Queue, Camera, PermissionsService} from '@services';
-import {queue} from '@constants';
+import React, { ReactNode } from 'react';
+import { TextStyle, Linking } from 'react-native';
+import { Queue, Camera, PermissionsService } from '@services';
+import { queue } from '@constants';
 import DynamicButton from './DynamicButton';
 
 type Props = {
@@ -21,9 +21,8 @@ type Props = {
   verificationState?: boolean;
   placeholder?: string;
   // Dynamic Button Props
-  leftIcon?: IconConfig;
-  showLeftIcon?: boolean;
-  showSUfixOnTheLeft?: boolean;
+  rigthIcon?: IconConfig;
+  showRigthIcon?: boolean;
   fileName?: string;
   isPublicDocument?: boolean;
   onSelectImage?: (file: QueueItem) => void;
@@ -54,17 +53,16 @@ const StepButton = ({
   customIconStyle,
   onPress,
   theme,
-  leftIcon,
-  showLeftIcon,
+  rigthIcon,
+  showRigthIcon,
   touched,
   error,
   testID,
-  showSUfixOnTheLeft,
   fileName,
   disable = false,
 }: Props) => {
   const handleOpenCamera = async (fileName?: string) => {
-    const {builder} = Queue;
+    const { builder } = Queue;
     if (fileName) {
       const hasPermissions = await getPermissions();
 
@@ -104,11 +102,10 @@ const StepButton = ({
       customButtonStyle={customButtonStyle}
       onPress={handleDynamicButton}
       theme={theme}
-      leftIcon={leftIcon}
-      showLeftIcon={showLeftIcon}
+      rigthIcon={rigthIcon}
+      showRigthIcon={showRigthIcon}
       customIconStyle={customIconStyle}
       testID={testID}
-      showSUfixOnTheLeft={showSUfixOnTheLeft}
       touched={touched}
       error={error}
     />

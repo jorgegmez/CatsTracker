@@ -12,18 +12,4 @@ import Card from './Card';
 import Loading from './Loading';
 import RegisterForm from './RegisterForm';
 
-export {
-  BodyText,
-  CustomHeader,
-  Header,
-  Icon,
-  Input,
-  MainButton,
-  Modal,
-  ProfilePicture,
-  Titles,
-  StepButton,
-  Card,
-  Loading,
-  RegisterForm,
-};
+export { BodyText, CustomHeader, Header, Icon, Input, MainButton, Modal, ProfilePicture, Titles, StepButton, Card, Loading, RegisterForm };

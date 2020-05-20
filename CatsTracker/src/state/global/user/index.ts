@@ -1,7 +1,4 @@
-import {
-  actionsUser as actions,
-  reducersNameUser as reducersName,
-} from '@constants';
+import { actionsUser as actions, reducersNameUser as reducersName } from '@constants';
 
 export const initialState: UserStateModel = {
   data: {
@@ -11,7 +8,7 @@ export const initialState: UserStateModel = {
     myCats: [],
   },
   pending: false,
-  error: {ok: true, text: ''},
+  error: { ok: true, text: '' },
 };
 
 const reducer = (state: UserStateModel = initialState, action: Action) => {

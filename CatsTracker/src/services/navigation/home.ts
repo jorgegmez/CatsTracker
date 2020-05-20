@@ -1,7 +1,7 @@
 import * as core from './core';
 
-import {NavigationActions} from 'react-navigation';
-import {routesHome, routesCats} from '@constants';
+import { NavigationActions } from 'react-navigation';
+import { routesHome, routesCats } from '@constants';
 
 const goToHome = () => {
   core.getTopLevelNavigator().dispatch(
@@ -34,4 +34,4 @@ const goToCatsHome = (stepNumber = 1, params?: UserStateModel) => {
   );
 };
 
-export {goToHome, goToCatsHome};
+export { goToHome, goToCatsHome };

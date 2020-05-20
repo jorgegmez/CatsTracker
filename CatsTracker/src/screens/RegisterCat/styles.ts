@@ -1,5 +1,5 @@
-import {StyleSheet, TextStyle} from 'react-native';
-import {colorsGlobal as colors} from '@constants';
+import { StyleSheet, TextStyle } from 'react-native';
+import { colorsGlobal as colors } from '@constants';
 
 const customTextStyle: TextStyle = {
   shadowOffset: {

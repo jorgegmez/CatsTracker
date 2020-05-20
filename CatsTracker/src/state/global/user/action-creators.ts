@@ -1,4 +1,4 @@
-import {actionsUser as actions} from '@constants';
+import { actionsUser as actions } from '@constants';
 
 export const registerUserInfo = (payload: UpdateUserStateModel) => ({
   type: actions.IDENTIFY_USER_INFO,

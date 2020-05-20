@@ -1,11 +1,6 @@
 import get from 'lodash/get';
 
-import {
-  isEndOfQueueTail,
-  removeQueueHead,
-  addQueueTail,
-  retryQueueItem,
-} from './utils';
+import { isEndOfQueueTail, removeQueueHead, addQueueTail, retryQueueItem } from './utils';
 
 type OnStart = () => void;
 type Callback = (response: QueueItem) => void;
@@ -63,4 +58,4 @@ const queueRunner = async (
   }
 };
 
-export {queueRunner};
+export { queueRunner };

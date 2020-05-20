@@ -1,12 +1,12 @@
 /* eslint-disable jest/no-identical-title */
 import React from 'react';
-import {View} from 'react-native';
-import {render, toJSON} from '@testing-library/react-native';
-import {RegisterForm, Input} from '@components';
+import { View } from 'react-native';
+import { render, toJSON } from '@testing-library/react-native';
+import { RegisterForm, Input } from '@components';
 
 describe('<RegisterForm>', () => {
   it('renders correctly theme white', () => {
-    const {container} = render(
+    const { container } = render(
       <RegisterForm theme="white">
         <View>
           <Input
@@ -26,7 +26,7 @@ describe('<RegisterForm>', () => {
 
 describe('<RegisterForm>', () => {
   it('renders correctly theme grey', () => {
-    const {container} = render(
+    const { container } = render(
       <RegisterForm theme="grey">
         <View>
           <Input

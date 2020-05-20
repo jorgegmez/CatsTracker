@@ -1,10 +1,10 @@
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
-import {connect} from 'react-redux';
+import { ActivityIndicator, View } from 'react-native';
+import { connect } from 'react-redux';
 
 import * as userSelectors from '@state/global/user/selector';
 
-import {NavigationService} from '@services';
+import { NavigationService } from '@services';
 import styles from './styles';
 
 type Props = {
@@ -21,7 +21,7 @@ class Boot extends React.Component<Props, {}> {
   public bootstrapAsync = async () => {
     const {
       userInfo: {
-        data: {name, lastName},
+        data: { name, lastName },
       },
     } = this.props;
     if (name !== '' || lastName !== '') {
