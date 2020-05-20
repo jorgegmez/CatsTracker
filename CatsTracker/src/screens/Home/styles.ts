@@ -74,13 +74,18 @@ const linkButtonLocate: TextStyle = {
   textDecorationLine: 'none',
   flexDirection: 'row',
   fontSize: 14,
-  width: '55%',
+  width: '65%',
 };
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     width: '100%',
+  },
+  content: {
+    flexGrow: 1,
+    alignItems: 'center',
+    padding: 20,
   },
   sadCat: {
     justifyContent: 'center',
@@ -90,8 +95,8 @@ const styles = StyleSheet.create({
   },
   firstSectionHeaderStyle: {
     width: '100%',
-    alignSelf: 'center',
-    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 20,
     marginBottom: 50,
   },
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    width: '100%',
+    width: '85%',
     alignSelf: 'center',
   },
   headerCat: {
@@ -128,12 +133,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonsContainer: {
+    width: '80%',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
   },
   stepButtonContainer: {
     width: Dimensions.get('window').width - 50,
+  },
+  burgerMenuIcon: {
+    marginRight: 10,
+    fontSize: 17,
   },
   customTextStyle,
   mainButton,

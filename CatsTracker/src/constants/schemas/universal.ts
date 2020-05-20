@@ -15,3 +15,8 @@ export const USER_NAME_LAST_NAME = (customRequiredMessage?: string, customValidM
   Yup.string()
     .matches(/^[^0-9]+$/, customValidMessage)
     .required(customRequiredMessage || validations.TEXT_FIELD_REQUIRED_ERROR);
+
+export const CAT_AGE_ONLY_NUMBERS = (customRequiredMessage?: string, customValidMessage?: string) =>
+  Yup.string()
+    .matches(/^[0-9]+$/, customValidMessage)
+    .required(customRequiredMessage || validations.TEXT_FIELD_REQUIRED_ERROR);

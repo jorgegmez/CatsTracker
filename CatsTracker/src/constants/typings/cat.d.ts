@@ -5,7 +5,7 @@ interface CatStateModel extends ReduxStateModel {
     breed: string;
     description: string;
     age: number;
-    picture?: string;
+    picture: number;
   };
 }
 
@@ -15,5 +15,5 @@ interface UpdateCatStateModel {
   breed?: string;
   description?: string;
   age?: number;
-  picture?: string;
+  picture: number;
 }

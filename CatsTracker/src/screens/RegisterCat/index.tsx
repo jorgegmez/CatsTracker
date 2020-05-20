@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
 import { Formik } from 'formik';
 import { colorsGlobal as colors, imagesGlobal, stringsCat } from '@constants';
-import { Titles, MainButton, Input, ProfilePicture, Loading, RegisterForm } from '@components';
+import { Titles, MainButton, Input, ProfilePicture, Loading, Card } from '@components';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { handleRegisterCat } from '@helpers/handlerCatsData';
@@ -93,13 +93,13 @@ class RegisterCat extends React.PureComponent<Props, State> {
               picture: imagePlacement,
             }}
             validationSchema={catRegisterSchema}
-            onSubmit={this.handleRegisterCat}
+            onSubmit={this.handleRegisterCatMethod}
           >
             {props => (
               <View style={styles.content}>
-                <RegisterForm customTextStyle={styles.customTextStyle} theme="white">
+                <Card customTextStyle={styles.customTextStyle} theme="white">
                   <View style={styles.firstSectionHeaderStyle}>
-                    <ProfilePicture image={imagePlacement} onImageSelected={() => this.selectProfileImage('profilePicture')} />
+                    <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
                   </View>
                   <View style={styles.secondSectionHeaderStyle}>
                     <Input
@@ -121,25 +121,34 @@ class RegisterCat extends React.PureComponent<Props, State> {
                       onBlur={props.handleBlur('age')}
                       type="numeric"
                       label={stringsCat.REGISTER_CAT_AGE_TEXT}
-                      hasError={!!props.errors.breed}
+                      hasError={!!props.errors.age}
                     />
                     <Input
                       onChange={props.handleChange('description')}
                       onBlur={props.handleBlur('description')}
                       type="normal"
                       label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
-                      hasError={!!props.errors.breed}
+                      hasError={!!props.errors.description}
                     />
                   </View>
-                </RegisterForm>
-                <View style={styles.grow} />
-                <MainButton
-                  theme={themeOfButton}
-                  text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
-                  testID={_.uniqueId()}
-                  customButtonStyle={styles.mainButton}
-                  onPress={props.handleSubmit}
-                />
+                  <View style={styles.buttonContainer}>
+                    <MainButton
+                      theme={themeOfButton}
+                      text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                      testID={_.uniqueId()}
+                      customButtonStyle={styles.mainButton}
+                      onPress={props.handleSubmit}
+                    />
+                  </View>
+                </Card>
+                {/* <View style={styles.grow} /> */}
+                {/* <MainButton
+                      theme={themeOfButton}
+                      text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                      testID={_.uniqueId()}
+                      customButtonStyle={styles.mainButton}
+                      onPress={props.handleSubmit}
+                    /> */}
               </View>
             )}
           </Formik>

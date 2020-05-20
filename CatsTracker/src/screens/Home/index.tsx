@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, View, Image, FlatList } from 'react-native';
+import { SafeAreaView, StatusBar, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import _ from 'lodash';
@@ -27,12 +27,6 @@ import { catRegisterSchema } from './schema';
 import styles from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
 
-type IconConfig = {
-  size?: number;
-  color?: string;
-  type: string;
-};
-
 type Props = {
   titleScreen: string;
   userInfo: UserStateModel;
@@ -46,13 +40,17 @@ type State = {
   setProfilePicture: boolean;
   loading: boolean;
   isCatSelect: boolean;
-  currentCatId: string;
+  currentCatId?: string;
 };
 
 class Home extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerTitle: () => <Image source={images.CAT} style={styles.headerCat} />,
-    headerRigth: () => <Icon config={{ ...icons.HAMBURGER_MENU, size: 20, color: colors.WHITE }} />,
+    headerRight: () => (
+      <TouchableOpacity style={styles.burgerMenuIcon}>
+        <Icon config={{ ...icons.HAMBURGER_MENU, size: 20, color: colors.WHITE }} />
+      </TouchableOpacity>
+    ),
   };
 
   state: State = {
@@ -93,14 +91,13 @@ class Home extends React.PureComponent<Props, State> {
         data: { myCats },
       },
     } = this.props;
-    console.log('handleRegisterCat --> name', name);
     if (name && breed && age && description && picture) {
       const cats = handleRegisterCat({ name, breed, age, description, picture }, myCats);
       registerCatInfoRegister(cats);
     }
   };
 
-  showCatDescription = (catId: string) => {
+  showCatDescription = (catId?: string) => {
     const { isCatSelect } = this.state;
     this.setState({
       isCatSelect: !isCatSelect,
@@ -127,7 +124,7 @@ class Home extends React.PureComponent<Props, State> {
     const { themeOfButton, userProfileImage, loading, isCatSelect, currentCatId } = this.state;
     const {
       userInfo: {
-        data: { myCats = [] },
+        data: { myCats },
       },
     } = this.props;
     const imagePlacement = userProfileImage
@@ -139,45 +136,12 @@ class Home extends React.PureComponent<Props, State> {
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
         <View>
-          {!myCats.length ? (
+          {myCats.length ? (
             <View>
               <Titles.H1 customStyle={styles.homeHaveCatsSubTitle} text={stringsCat.REGISTER_HAVE_CATS_SUBTIBLE} bold />
               <View style={styles.cardContainer}>
                 <FlatList
-                  data={[
-                    {
-                      id: 'cat-1',
-                      name: 'fito',
-                      breed: 'siames',
-                      description: 'small',
-                      age: 2,
-                      picture: imagePlacement,
-                    },
-                    {
-                      id: 'cat-2',
-                      name: 'Noah',
-                      breed: 'siames',
-                      description: 'small',
-                      age: 3,
-                      picture: imagePlacement,
-                    },
-                    {
-                      id: 'cat-3',
-                      name: 'Pelos',
-                      breed: 'siames',
-                      description: 'small',
-                      age: 1,
-                      picture: imagePlacement,
-                    },
-                    {
-                      id: 'cat-4',
-                      name: 'Manchas',
-                      breed: 'siames',
-                      description: 'small',
-                      age: 5,
-                      picture: imagePlacement,
-                    },
-                  ]}
+                  data={myCats}
                   renderItem={cat => (
                     <View style={styles.stepButtonContainer}>
                       <StepButton
@@ -218,7 +182,7 @@ class Home extends React.PureComponent<Props, State> {
                           </View>
                           <View style={styles.buttonsContainer}>
                             <ThinButton
-                              onPress={this.deleteCat}
+                              onPress={() => this.deleteCat(cat.item.id)}
                               customStyleLinkText={styles.linkButtonDelete}
                               text={stringsCat.HOME_CAT_DELETE_BUTTON}
                             />
@@ -242,23 +206,23 @@ class Home extends React.PureComponent<Props, State> {
                 title={stringsHome.HOME_NO_CATS_TITLE_TEXT}
                 info={stringsHome.HOME_NO_CATS_SUBTITLE_TEXT}
               />
-              <RegisterForm customTextStyle={styles.customTextStyle} theme="white">
-                <Formik
-                  initialValues={{
-                    id: '',
-                    name: '',
-                    breed: '',
-                    age: 0,
-                    description: '',
-                    picture: imagePlacement,
-                  }}
-                  validationSchema={catRegisterSchema}
-                  onSubmit={this.handleRegisterCatMethod}
-                >
-                  {props => (
-                    <View>
+              <Formik
+                initialValues={{
+                  id: '',
+                  name: '',
+                  breed: '',
+                  age: 0,
+                  description: '',
+                  picture: imagePlacement,
+                }}
+                validationSchema={catRegisterSchema}
+                onSubmit={this.handleRegisterCatMethod}
+              >
+                {props => (
+                  <View style={styles.content}>
+                    <Card customTextStyle={styles.customTextStyle} theme="white">
                       <View style={styles.firstSectionHeaderStyle}>
-                        <ProfilePicture image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
+                        <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
                       </View>
                       <View style={styles.secondSectionHeaderStyle}>
                         <Input
@@ -299,10 +263,10 @@ class Home extends React.PureComponent<Props, State> {
                           onPress={props.handleSubmit}
                         />
                       </View>
-                    </View>
-                  )}
-                </Formik>
-              </RegisterForm>
+                    </Card>
+                  </View>
+                )}
+              </Formik>
             </ScrollView>
           )}
         </View>

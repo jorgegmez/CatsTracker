@@ -59,6 +59,11 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flexDirection: 'column',
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
   customTextStyle,
   headerNav,
 });

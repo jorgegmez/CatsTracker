@@ -7,4 +7,6 @@ export const REGISTER_CAT_BREED_REQUIRED_ERROR = 'Breed is required';
 export const REGISTER_CAT_BREED_INVALID_ERROR = 'Invalid breed';
 export const REGISTER_CAT_DESCRIPTION_REQUIRED_ERROR = 'Description is required';
 export const REGISTER_CAT_DESCRIPTION_INVALID_ERROR = 'Invalid Description';
+export const REGISTER_CAT_AGE_REQUIRED_ERROR = 'Age is required';
+export const REGISTER_CAT_AGE_INVALID_ERROR = 'Invalid age';
 export const REGISTER_PICTURE_REQUIRED_ERROR = 'Picture is required';
