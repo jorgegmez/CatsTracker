@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
+    width: '85%',
     height: 70,
     alignItems: 'center',
   },
@@ -34,14 +34,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    flex: 10,
   },
   rigthComponents: {
-    width: '10%',
+    width: '20%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    flex: 10,
   },
   text: {
     flexWrap: 'wrap',
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     marginRight: 20,
   },
   errorMessage: {

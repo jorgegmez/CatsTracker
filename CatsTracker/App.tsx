@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // import firebase from '@react-native-firebase/app';
 // import AsyncStorage from '@react-native-community/async-storage';
 // import {GeolocationConfig} from './src/config';
 // import {PersistGate} from 'redux-persist/lib/integration/react';
 import DropdownAlert from 'react-native-dropdownalert';
-import {Provider} from 'react-redux';
-import {NavigationService} from '@services';
+import { Provider } from 'react-redux';
+import { NavigationService } from '@services';
 // import {notifications} from '@constants';
 import universalUtils from '@helpers/universal';
 import AppContainer from './src/navigation/AppNavigation';

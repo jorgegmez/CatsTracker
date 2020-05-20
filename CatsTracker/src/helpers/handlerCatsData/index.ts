@@ -16,3 +16,8 @@ export const handleRegisterCat = ({ name, breed, age, description, picture }: Ca
   }
   return [];
 };
+
+export const handleDeleteCat = (catId?: string, myCats?: CatPet[]) => {
+  const newCastArray = myCats ? myCats.filter((cat) => cat.id !== catId) : [];
+  return newCastArray;
+};

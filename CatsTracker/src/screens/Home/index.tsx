@@ -4,15 +4,34 @@ import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import _ from 'lodash';
 import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlobal, stringsCat, icons } from '@constants';
-import { Titles, MainButton, CustomHeader, Loading, RegisterForm, Input, ProfilePicture, StepButton, Icon } from '@components';
+import {
+  Titles,
+  MainButton,
+  CustomHeader,
+  Loading,
+  RegisterForm,
+  Input,
+  ProfilePicture,
+  StepButton,
+  Icon,
+  BodyText,
+  Card,
+  ThinButton,
+} from '@components';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
 import * as userSelectors from '@state/global/user/selector';
-import { handleRegisterCat } from '@helpers/handlerCatsData';
+import { handleRegisterCat, handleDeleteCat } from '@helpers/handlerCatsData';
 import { catRegisterSchema } from './schema';
 
 import styles from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
+
+type IconConfig = {
+  size?: number;
+  color?: string;
+  type: string;
+};
 
 type Props = {
   titleScreen: string;
@@ -26,12 +45,14 @@ type State = {
   userProfileImage?: string;
   setProfilePicture: boolean;
   loading: boolean;
+  isCatSelect: boolean;
+  currentCatId: string;
 };
 
 class Home extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerTitle: () => <Image source={images.CAT} style={styles.headerCat} />,
-    headerRigth: () => <Icon config={icons.HAMBURGER_MENU} />,
+    headerRigth: () => <Icon config={{ ...icons.HAMBURGER_MENU, size: 20, color: colors.WHITE }} />,
   };
 
   state: State = {
@@ -39,6 +60,8 @@ class Home extends React.PureComponent<Props, State> {
     userProfileImage: '',
     setProfilePicture: false,
     loading: false,
+    isCatSelect: false,
+    currentCatId: '',
   };
 
   private selectProfileImage = async (fileName?: string) => {
@@ -77,21 +100,34 @@ class Home extends React.PureComponent<Props, State> {
     }
   };
 
-  render() {
-    const { themeOfButton, userProfileImage, loading } = this.state;
+  showCatDescription = (catId: string) => {
+    const { isCatSelect } = this.state;
+    this.setState({
+      isCatSelect: !isCatSelect,
+      currentCatId: catId,
+    });
+  };
+
+  deleteCat = (catId?: string) => {
     const {
       userInfo: {
-        data: {
-          myCats = [
-            {
-              id: 'cat-1',
-              name: 'fito',
-              breed: 'siames',
-              description: 'small',
-              age: 2,
-            },
-          ],
-        },
+        data: { myCats },
+      },
+      registerCatInfoRegister,
+    } = this.props;
+    const newCats = handleDeleteCat(catId, myCats);
+    registerCatInfoRegister(newCats);
+  };
+
+  handleCatLocation = () => {
+    // add logic
+  };
+
+  render() {
+    const { themeOfButton, userProfileImage, loading, isCatSelect, currentCatId } = this.state;
+    const {
+      userInfo: {
+        data: { myCats = [] },
       },
     } = this.props;
     const imagePlacement = userProfileImage
@@ -115,23 +151,86 @@ class Home extends React.PureComponent<Props, State> {
                       breed: 'siames',
                       description: 'small',
                       age: 2,
-                      picture: imagesGlobal.ICON_CAT_AVATAR,
+                      picture: imagePlacement,
+                    },
+                    {
+                      id: 'cat-2',
+                      name: 'Noah',
+                      breed: 'siames',
+                      description: 'small',
+                      age: 3,
+                      picture: imagePlacement,
+                    },
+                    {
+                      id: 'cat-3',
+                      name: 'Pelos',
+                      breed: 'siames',
+                      description: 'small',
+                      age: 1,
+                      picture: imagePlacement,
+                    },
+                    {
+                      id: 'cat-4',
+                      name: 'Manchas',
+                      breed: 'siames',
+                      description: 'small',
+                      age: 5,
+                      picture: imagePlacement,
                     },
                   ]}
                   renderItem={cat => (
-                    <StepButton
-                      sufixComponent={<Image style={styles.imageButton} source={cat.item.picture} />}
-                      customButtonStyle={styles.pendingStepButton}
-                      rigthIcon={{
-                        ...icons.ARROW_LEFT,
-                        color: colors.DARK_GRAY,
-                        size: 22,
-                      }}
-                      showRigthIcon
-                      theme="cream"
-                      text={`${cat.item.name}`}
-                      customTextStyle={styles.stepButtonText}
-                    />
+                    <View style={styles.stepButtonContainer}>
+                      <StepButton
+                        sufixComponent={<Image style={styles.imageButton} source={cat.item.picture} />}
+                        customButtonStyle={styles.stepButton}
+                        rigthIcon={
+                          isCatSelect && currentCatId === cat.item.id
+                            ? {
+                                ...icons.ARROW_DOWN_THIN,
+                                color: colors.DARK_GRAY,
+                                size: 22,
+                              }
+                            : {
+                                ...icons.ARROW_RIGHT,
+                                color: colors.DARK_GRAY,
+                                size: 22,
+                              }
+                        }
+                        showRigthIcon
+                        theme="cream"
+                        text={`${cat.item.name}`}
+                        customTextStyle={styles.stepButtonText}
+                        onPress={() => this.showCatDescription(cat.item.id)}
+                      />
+                      {isCatSelect && currentCatId === cat.item.id && (
+                        <Card theme="grey">
+                          <View style={styles.catInfoContainer}>
+                            <Titles.H3 customStyle={styles.catInfoLabels} text={stringsCat.HOME_CAT_BREED_LABEL} bold />
+                            <BodyText customStyle={styles.catInfoText} text={cat.item.breed} />
+                          </View>
+                          <View style={styles.catInfoContainer}>
+                            <Titles.H3 customStyle={styles.catInfoLabels} text={stringsCat.HOME_CAT_AGE_LABEL} bold />
+                            <BodyText customStyle={styles.catInfoText} text={`${cat.item.age} years old`} />
+                          </View>
+                          <View style={styles.catInfoContainer}>
+                            <Titles.H3 customStyle={styles.catInfoLabels} text={stringsCat.HOME_CAT_DESCRIPTION_LABEL} bold />
+                            <BodyText customStyle={styles.catInfoText} text={cat.item.description} />
+                          </View>
+                          <View style={styles.buttonsContainer}>
+                            <ThinButton
+                              onPress={this.deleteCat}
+                              customStyleLinkText={styles.linkButtonDelete}
+                              text={stringsCat.HOME_CAT_DELETE_BUTTON}
+                            />
+                            <ThinButton
+                              onPress={this.handleCatLocation}
+                              customStyleLinkText={styles.linkButtonLocate}
+                              text={stringsCat.HOME_CAT_LOCATE_BUTTON}
+                            />
+                          </View>
+                        </Card>
+                      )}
+                    </View>
                   )}
                 />
               </View>

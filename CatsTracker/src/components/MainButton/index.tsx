@@ -7,7 +7,7 @@ import { colorsGlobal as colors } from '@constants';
 import styles from './styles';
 
 interface Props extends TouchableOpacityProps {
-  text?: string;
+  text: string;
   theme?: 'blue' | 'white' | 'gray';
   outline?: boolean;
   flat?: boolean;
@@ -25,11 +25,11 @@ interface Props extends TouchableOpacityProps {
 class MainButton extends PureComponent<Props> {
   render() {
     const {
-      text = null,
+      text,
       theme,
       outline,
       onPress,
-      icon = null,
+      icon,
       customTextStyle,
       customButtonStyle,
       flat,

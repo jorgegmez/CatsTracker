@@ -16,7 +16,7 @@ type Props = {
   touched?: boolean;
   error?: string;
   testID?: string;
-  showLeftIcon?: boolean;
+  showRigthIcon?: boolean;
   showSUfixOnTheLeft?: boolean;
 };
 

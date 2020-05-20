@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, TextStyle } from 'react-native';
+import { StyleSheet, Dimensions, TextStyle } from 'react-native';
 import { colorsGlobal } from '@constants';
 
 const customTextStyle: TextStyle = {
@@ -30,7 +30,22 @@ const stepButtonText: TextStyle = {
   color: colorsGlobal.DARK_GRAY,
 };
 
-const pendingStepButton: TextStyle = {
+const catInfoLabels: TextStyle = {
+  width: 'auto',
+  flexDirection: 'row',
+  marginTop: 10,
+  marginRight: 10,
+  color: colorsGlobal.DARK_GRAY,
+};
+
+const catInfoText: TextStyle = {
+  width: 'auto',
+  marginTop: 10,
+  flexDirection: 'row',
+};
+
+const stepButton: TextStyle = {
+  width: 'auto',
   backgroundColor: colorsGlobal.WHITE,
   borderRadius: 5,
   marginVertical: 5,
@@ -44,6 +59,22 @@ const pendingStepButton: TextStyle = {
 const homeHaveCatsSubTitle: TextStyle = {
   marginVertical: 40,
   marginHorizontal: 20,
+};
+
+const linkButtonDelete: TextStyle = {
+  color: colorsGlobal.DANGER,
+  textDecorationLine: 'none',
+  flexDirection: 'row',
+  fontSize: 14,
+  width: '55%',
+};
+
+const linkButtonLocate: TextStyle = {
+  color: colorsGlobal.PRIMARY,
+  textDecorationLine: 'none',
+  flexDirection: 'row',
+  fontSize: 14,
+  width: '55%',
 };
 
 const styles = StyleSheet.create({
@@ -90,15 +121,29 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '90%',
     alignSelf: 'center',
-    // backgroundColor: 'pink',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  catInfoContainer: {
+    flexDirection: 'row',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  stepButtonContainer: {
+    width: Dimensions.get('window').width - 50,
   },
   customTextStyle,
   mainButton,
   stepButtonText,
-  pendingStepButton,
+  stepButton,
   homeHaveCatsSubTitle,
+  catInfoLabels,
+  catInfoText,
+  linkButtonDelete,
+  linkButtonLocate,
 });
 
 export default styles;
