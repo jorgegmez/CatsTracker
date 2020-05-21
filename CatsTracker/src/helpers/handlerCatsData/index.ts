@@ -11,6 +11,10 @@ export const handleRegisterCat = ({ name, breed, age, description, picture }: Ca
       age,
       description,
       picture,
+      coordinates: {
+        latitude: 9.863889,
+        longitude: -83.912781,
+      },
     };
     cats.push(newCat);
     return cats;

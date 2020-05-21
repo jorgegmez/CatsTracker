@@ -39,6 +39,14 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We ask for your permission to access to your camera and/or gallery.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Al usar su ubicación, podemos mostrar su posición en el mapa</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Al usar su ubicación, podemos mostrar su posición en el mapa</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Al usar su ubicación, podemos mostrar su posición en el mapa</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Al usar su ubicación, podemos mostrar su posición en el mapa</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

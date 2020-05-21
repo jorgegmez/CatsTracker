@@ -10,9 +10,9 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    borderWidth: 5,
-    borderColor: 'red',
-    backgroundColor: 'pink',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
 

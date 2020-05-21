@@ -5,6 +5,7 @@ type CatPet = {
   description: string;
   age: number;
   picture: number;
+  coordinates?: LatLng;
 };
 
 interface UserStateModel extends ReduxStateModel {

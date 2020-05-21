@@ -6,6 +6,7 @@ interface CatStateModel extends ReduxStateModel {
     description: string;
     age: number;
     picture: number;
+    coordinates: LatLng;
   };
 }
 
@@ -16,4 +17,5 @@ interface UpdateCatStateModel {
   description?: string;
   age: number;
   picture: number;
+  coordinates: LatLng;
 }

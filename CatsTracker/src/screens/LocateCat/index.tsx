@@ -1,14 +1,16 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StatusBar, View, Image, TouchableOpacity } from 'react-native';
-import { colorsGlobal as colors, imagesGlobal as images, icons } from '@constants';
-import { Titles, MainButton, Icon } from '@components';
-import _ from 'lodash';
+import { SafeAreaView, StatusBar, Image, TouchableOpacity } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { connect } from 'react-redux';
+import { colorsGlobal as colors, imagesGlobal as images, icons, imagesGlobal } from '@constants';
+import { Icon } from '@components';
+import * as catSelectors from '@state/global/cat/selector';
 
 import styles from './styles';
 import { NavigationService } from '@services';
 
 type Props = {
-  title: string;
+  catInfo: CatPet;
 };
 
 class LocateCat extends React.PureComponent<Props, {}> {
@@ -23,14 +25,36 @@ class LocateCat extends React.PureComponent<Props, {}> {
   };
 
   render() {
-    const { title = 'Welcome here!' } = this.props;
+    const { catInfo } = this.props;
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <Titles.H1 text={title} />
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 9.863889,
+            longitude: -83.912778,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <Marker
+            tracksViewChanges
+            title={catInfo.name}
+            coordinate={{
+              latitude: catInfo.coordinates ? catInfo.coordinates.latitude : 9.863889,
+              longitude: catInfo.coordinates ? catInfo.coordinates.longitude : -83.912778,
+            }}
+            image={imagesGlobal.ICON_CAT_MAP_AVATAR}
+          />
+        </MapView>
       </SafeAreaView>
     );
   }
 }
 
-export default LocateCat;
+const mapStateToProps = (state: RootState) => ({
+  catInfo: catSelectors.CatSelector(state).data,
+});
+
+export default connect(mapStateToProps, null)(LocateCat);
