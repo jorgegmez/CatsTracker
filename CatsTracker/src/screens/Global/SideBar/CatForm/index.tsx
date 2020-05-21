@@ -2,14 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
 import { Formik } from 'formik';
-import { colorsGlobal as colors, imagesGlobal, stringsCat } from '@constants';
+import { colorsGlobal as colors, stringsCat, imagesGlobal } from '@constants';
 import { Titles, MainButton, Input, ProfilePicture, Loading, Card } from '@components';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
+import { resetCatFieldsAction } from '@state/global/cat/actions';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
-import { handleRegisterCat } from '@helpers/handlerCatsData';
+import { handleUpdateCat, handleRegisterCat } from '@helpers/handlerCatsData';
+import { NavigationService } from '@services';
 import _ from 'lodash';
 import { catRegisterSchema } from './schema';
-import * as userSelectors from '@state/global/user/selector';
+import * as catSelectors from '@state/global/cat/selector';
+import * as userSelectos from '@state/global/user/selector';
 
 import styles from './styles';
 
@@ -21,8 +24,10 @@ type State = {
 };
 
 type Props = {
+  catInfo: CatStateModel;
   userInfo: UserStateModel;
   registerCatInfoRegister: (cats: CatPet[]) => void;
+  resetCatFields: () => void;
 };
 
 class CatForm extends React.PureComponent<Props, State> {
@@ -59,41 +64,61 @@ class CatForm extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleRegisterCatMethod = async ({ name, breed, age, description, picture }: CatPet) => {
+  public handleUpdateCatMethod = async ({ id, name, breed, age, description, picture }: CatPet) => {
     const {
       registerCatInfoRegister,
+      resetCatFields,
       userInfo: {
         data: { myCats },
       },
     } = this.props;
-    if (name && breed && age && description && picture) {
-      const cats = handleRegisterCat({ name, breed, age, description, picture }, myCats);
-      registerCatInfoRegister(cats);
+    let cats: CatPet[];
+
+    if (id && name && breed && age && description && picture) {
+      cats = handleUpdateCat({ id, name, breed, age, description, picture }, myCats);
+    } else {
+      const cat: CatPet = {
+        name,
+        breed,
+        age,
+        description,
+        picture: picture || imagesGlobal.ICON_CAT_AVATAR,
+      };
+      cats = handleRegisterCat(cat, myCats);
     }
+
+    registerCatInfoRegister(cats);
+    NavigationService.home.goToCatsHome(0);
+    resetCatFields();
   };
 
   render() {
+    const {
+      catInfo: {
+        data: { id, name, breed, age, description, picture },
+      },
+    } = this.props;
     const { themeOfButton, userProfileImage, loading } = this.state;
     const imagePlacement = userProfileImage
       ? {
           uri: userProfileImage,
         }
-      : imagesGlobal.ICON_AVATAR;
+      : picture || imagesGlobal.ICON_CAT_AVATAR;
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
         <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
           <Formik
             initialValues={{
-              id: '',
-              name: '',
-              breed: '',
-              age: 0,
-              description: '',
-              picture: imagePlacement,
+              id,
+              name,
+              breed,
+              age,
+              description,
+              picture,
             }}
             validationSchema={catRegisterSchema}
-            onSubmit={this.handleRegisterCatMethod}
+            onSubmit={this.handleUpdateCatMethod}
           >
             {props => (
               <View style={styles.content}>
@@ -105,6 +130,7 @@ class CatForm extends React.PureComponent<Props, State> {
                     <Input
                       onChange={props.handleChange('name')}
                       onBlur={props.handleBlur('name')}
+                      value={props.values.name}
                       type="normal"
                       label={stringsCat.REGISTER_CAT_NAME_TEXT}
                       hasError={!!props.errors.name}
@@ -112,6 +138,7 @@ class CatForm extends React.PureComponent<Props, State> {
                     <Input
                       onChange={props.handleChange('breed')}
                       onBlur={props.handleBlur('breed')}
+                      value={props.values.breed}
                       type="normal"
                       label={stringsCat.REGISTER_CAT_BREED_TEXT}
                       hasError={!!props.errors.breed}
@@ -119,6 +146,7 @@ class CatForm extends React.PureComponent<Props, State> {
                     <Input
                       onChange={props.handleChange('age')}
                       onBlur={props.handleBlur('age')}
+                      value={props.values.age}
                       type="numeric"
                       label={stringsCat.REGISTER_CAT_AGE_TEXT}
                       hasError={!!props.errors.age}
@@ -127,6 +155,7 @@ class CatForm extends React.PureComponent<Props, State> {
                       onChange={props.handleChange('description')}
                       onBlur={props.handleBlur('description')}
                       type="normal"
+                      value={props.values.description}
                       label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
                       hasError={!!props.errors.description}
                     />
@@ -152,11 +181,13 @@ class CatForm extends React.PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  userInfo: userSelectors.UserSelector(state),
+  catInfo: catSelectors.CatSelector(state),
+  userInfo: userSelectos.UserSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
   registerCatInfoRegister: (data: CatPet[]) => dispatch(registerCatInfoRegisterAction(data)),
+  resetCatFields: () => dispatch(resetCatFieldsAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CatForm);

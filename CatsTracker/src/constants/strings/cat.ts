@@ -9,4 +9,5 @@ export const HOME_CAT_DESCRIPTION_LABEL = 'Description:';
 export const HOME_CAT_AGE_LABEL = 'Age:';
 export const HOME_CAT_BREED_LABEL = 'Breed:';
 export const HOME_CAT_DELETE_BUTTON = 'Delete';
+export const HOME_CAT_UPDATE_BUTTON = 'Update';
 export const HOME_CAT_LOCATE_BUTTON = 'Cat location';

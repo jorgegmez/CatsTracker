@@ -7,7 +7,7 @@ import styles from './styles';
 interface Props extends TextInputProps {
   label: string;
   placeholder?: string;
-  value?: string;
+  value?: string | number;
   allowCapitalizeCase?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (e: any | React.ChangeEvent<any>) => void;

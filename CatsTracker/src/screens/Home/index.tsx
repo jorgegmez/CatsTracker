@@ -7,8 +7,10 @@ import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlob
 import { Titles, MainButton, CustomHeader, Loading, Input, ProfilePicture, StepButton, Icon, BodyText, Card, ThinButton } from '@components';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
+import { updateCurrentCatAction } from '@state/global/cat/actions';
 import * as userSelectors from '@state/global/user/selector';
 import { handleRegisterCat, handleDeleteCat } from '@helpers/handlerCatsData';
+import { NavigationService } from '@services';
 import { catRegisterSchema } from './schema';
 
 import styles from './styles';
@@ -19,6 +21,7 @@ type Props = {
   userInfo: UserStateModel;
   catInfo: CatStateModel;
   registerCatInfoRegister: (cat: CatPet[]) => void;
+  updateCurrentCat: (cat?: CatPet) => void;
 };
 
 type State = {
@@ -103,6 +106,19 @@ class Home extends React.PureComponent<Props, State> {
     registerCatInfoRegister(newCats);
   };
 
+  updateCatInfo = (catId?: string) => {
+    const {
+      userInfo: {
+        data: { myCats },
+      },
+      updateCurrentCat,
+    } = this.props;
+    const currentCat = myCats.find(cat => cat.id === catId);
+    console.log('updateCatInfo', currentCat);
+    updateCurrentCat(currentCat);
+    NavigationService.home.goToCatsHome(1);
+  };
+
   handleCatLocation = () => {
     // add logic
   };
@@ -172,6 +188,11 @@ class Home extends React.PureComponent<Props, State> {
                               onPress={() => this.deleteCat(cat.item.id)}
                               customStyleLinkText={styles.linkButtonDelete}
                               text={stringsCat.HOME_CAT_DELETE_BUTTON}
+                            />
+                            <ThinButton
+                              onPress={() => this.updateCatInfo(cat.item.id)}
+                              customStyleLinkText={styles.linkButtonUpdate}
+                              text={stringsCat.HOME_CAT_UPDATE_BUTTON}
                             />
                             <ThinButton
                               onPress={this.handleCatLocation}
@@ -266,9 +287,10 @@ class Home extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: RootState) => ({
   userInfo: userSelectors.UserSelector(state),
 });
-
+// updateCurrentCatAction
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
   registerCatInfoRegister: (pet: CatPet[]) => dispatch(registerCatInfoRegisterAction(pet)),
+  updateCurrentCat: (pet?: CatPet) => dispatch(updateCurrentCatAction(pet)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

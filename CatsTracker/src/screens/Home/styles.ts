@@ -66,7 +66,15 @@ const linkButtonDelete: TextStyle = {
   textDecorationLine: 'none',
   flexDirection: 'row',
   fontSize: 14,
-  width: '55%',
+  width: '50%',
+};
+
+const linkButtonUpdate: TextStyle = {
+  color: colorsGlobal.PRIMARY,
+  textDecorationLine: 'none',
+  flexDirection: 'row',
+  fontSize: 14,
+  width: '50%',
 };
 
 const linkButtonLocate: TextStyle = {
@@ -154,6 +162,7 @@ const styles = StyleSheet.create({
   catInfoText,
   linkButtonDelete,
   linkButtonLocate,
+  linkButtonUpdate,
 });
 
 export default styles;
