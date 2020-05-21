@@ -2,10 +2,11 @@ import { actionsCat as actions, reducersNameCat as reducersName } from '@constan
 
 export const initialState: CatStateModel = {
   data: {
+    id: '',
     name: '',
     breed: '',
     description: '',
-    picture: '',
+    picture: 0,
     age: 0,
   },
   pending: false,
@@ -31,6 +32,9 @@ const reducer = (state: CatStateModel = initialState, action: Action) => {
           ...action.payload,
         },
       };
+
+    case actions.RESET_FIELDS:
+      return initialState;
 
     default:
       return state;

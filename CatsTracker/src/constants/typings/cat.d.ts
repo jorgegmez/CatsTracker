@@ -11,9 +11,9 @@ interface CatStateModel extends ReduxStateModel {
 
 interface UpdateCatStateModel {
   id: string;
-  name?: string;
-  breed?: string;
+  name: string;
+  breed: string;
   description?: string;
-  age?: number;
+  age: number;
   picture: number;
 }

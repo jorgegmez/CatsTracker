@@ -20,4 +20,5 @@ interface UpdateUserStateModel {
   name?: string;
   lastName?: string;
   profilePicture: number;
+  myCats: CatPet[];
 }

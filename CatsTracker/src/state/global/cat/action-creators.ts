@@ -5,7 +5,11 @@ export const setCatPicture = (payload?: UpdateCatStateModel) => ({
   payload,
 });
 
-export const updateCurrentCat = (payload?: UpdateCatStateModel) => ({
+export const updateCurrentCat = (payload?: CatPet) => ({
   type: actions.UPDATE_CURRENT_CAT_INFO,
   payload,
+});
+
+export const resetCatFields = () => ({
+  type: actions.RESET_FIELDS,
 });
