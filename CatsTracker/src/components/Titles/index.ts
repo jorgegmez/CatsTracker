@@ -1,3 +1,3 @@
 import Titles from './Titles';
 
-export {Titles};
+export { Titles };

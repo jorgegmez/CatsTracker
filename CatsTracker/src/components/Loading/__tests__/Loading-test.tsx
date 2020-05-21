@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-identical-title */
-import {Loading} from '@components';
+import { Loading } from '@components';
 import React from 'react';
 import renderer from 'react-test-renderer';
 

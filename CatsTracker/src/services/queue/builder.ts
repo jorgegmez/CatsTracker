@@ -1,7 +1,7 @@
 import uuid from 'react-native-uuid-generator';
 import AsyncStorage from '@react-native-community/async-storage';
-import {queue} from '@constants';
-import {addQueueTail, removeQueueHead} from './utils';
+import { queue } from '@constants';
+import { addQueueTail, removeQueueHead } from './utils';
 
 type QueueUpdate = {
   ok?: boolean;
@@ -17,18 +17,14 @@ const getQueueTemplate = async (queueName: string): Promise<QueueSchema> => {
 };
 
 const getQueue = async (queueName: string): Promise<QueueSchema> => {
-  const localQueue =
-    (await AsyncStorage.getItem(`${queue.QUEUE_PREFIX}_${queueName}`)) || '{}';
+  const localQueue = (await AsyncStorage.getItem(`${queue.QUEUE_PREFIX}_${queueName}`)) || '{}';
   return JSON.parse(localQueue);
 };
 
 const createQueue = async (queueName: string): Promise<void> => {
   const localQueue = await getQueueTemplate(queueName);
 
-  return AsyncStorage.setItem(
-    `${queue.QUEUE_PREFIX}_${queueName}`,
-    JSON.stringify(localQueue),
-  );
+  return AsyncStorage.setItem(`${queue.QUEUE_PREFIX}_${queueName}`, JSON.stringify(localQueue));
 };
 
 const clearQueues = async (): Promise<void> => {
@@ -45,20 +41,14 @@ const updateQueue = async (newQueue: QueueSchema): Promise<QueueSchema> => {
   const localQueue = await getQueue(newQueue.name);
 
   if (localQueue.id) {
-    await AsyncStorage.setItem(
-      `${queue.QUEUE_PREFIX}_${newQueue.name}`,
-      JSON.stringify(newQueue),
-    );
+    await AsyncStorage.setItem(`${queue.QUEUE_PREFIX}_${newQueue.name}`, JSON.stringify(newQueue));
 
     return newQueue;
   }
   return newQueue;
 };
 
-const addQueueItem = async (
-  queueName: string,
-  item: QueueItem,
-): Promise<QueueSchema> => {
+const addQueueItem = async (queueName: string, item: QueueItem): Promise<QueueSchema> => {
   try {
     let localQueue = await getQueue(queueName);
 
@@ -67,7 +57,7 @@ const addQueueItem = async (
       localQueue = await getQueue(queueName);
     }
 
-    const updatedQueue = addQueueTail(localQueue, {...item, queue: queueName});
+    const updatedQueue = addQueueTail(localQueue, { ...item, queue: queueName });
 
     return updateQueue(updatedQueue);
   } catch (error) {
@@ -86,12 +76,4 @@ const removeQueueItem = async (queue: string): Promise<QueueSchema> => {
   }
 };
 
-export {
-  createQueue,
-  clearQueue,
-  clearQueues,
-  addQueueItem,
-  removeQueueItem,
-  getQueue,
-  updateQueue,
-};
+export { createQueue, clearQueue, clearQueues, addQueueItem, removeQueueItem, getQueue, updateQueue };

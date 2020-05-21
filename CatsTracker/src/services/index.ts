@@ -5,4 +5,4 @@ import * as PermissionsService from './permissions';
 
 const noop = '';
 
-export {NavigationService, Camera, Queue, PermissionsService, noop};
+export { NavigationService, Camera, Queue, PermissionsService, noop };

@@ -1,16 +1,14 @@
-import {
-  actionsUser as actions,
-  reducersNameUser as reducersName,
-} from '@constants';
+import { actionsUser as actions, reducersNameUser as reducersName } from '@constants';
 
 export const initialState: UserStateModel = {
   data: {
     name: '',
     lastName: '',
-    profilePicture: '',
+    profilePicture: 0,
+    myCats: [],
   },
   pending: false,
-  error: {ok: true, text: ''},
+  error: { ok: true, text: '' },
 };
 
 const reducer = (state: UserStateModel = initialState, action: Action) => {
@@ -32,6 +30,18 @@ const reducer = (state: UserStateModel = initialState, action: Action) => {
           ...action.payload,
         },
       };
+
+    case actions.REGISTER_CAT_INFO:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          myCats: action.payload,
+        },
+      };
+
+    case actions.RESET_FIELDS_USER:
+      return initialState;
 
     default:
       return state;

@@ -12,9 +12,7 @@ type reducerTypes = StateType<typeof import('@state/reducers').default>;
 
 interface DispatchRSSA {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  <Payload, Meta>(action: RSAAAction<any, Payload, Meta>): Promise<
-    RSAAResultAction<Payload, Meta>
-  >;
+  <Payload, Meta>(action: RSAAAction<any, Payload, Meta>): Promise<RSAAResultAction<Payload, Meta>>;
   // `Promise<undefined> is returned in case of RSAA validation errors or user bails out
   (action: RSAAAction): Promise<undefined>;
 }

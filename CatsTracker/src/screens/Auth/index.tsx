@@ -1,12 +1,8 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
-import {
-  colorsGlobal as colors,
-  stringsAuth,
-  imagesGlobal as images,
-} from '@constants';
-import {MainButton, CustomHeader, Titles} from '@components';
-import {NavigationService} from '@services';
+import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { colorsGlobal as colors, stringsAuth, imagesGlobal as images } from '@constants';
+import { MainButton, CustomHeader, Titles } from '@components';
+import { NavigationService } from '@services';
 import _ from 'lodash';
 
 import styles from './styles';
@@ -29,19 +25,12 @@ class AuthHome extends React.PureComponent<{}, State> {
   }
 
   render() {
-    const {themeOfButton} = this.state;
+    const { themeOfButton } = this.state;
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <ScrollView
-          alwaysBounceVertical={false}
-          bounces={false}
-          contentContainerStyle={styles.scrollView}>
-          <CustomHeader
-            logo={images.CAT}
-            title={stringsAuth.AUTH_WELCOME_TEXT}
-            info={stringsAuth.AUTH_DESCRIPTION_TEXT}
-          />
+        <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
+          <CustomHeader logo={images.CAT} title={stringsAuth.AUTH_WELCOME_TEXT} info={stringsAuth.AUTH_DESCRIPTION_TEXT} />
           <View style={styles.content}>
             <View style={styles.grow} />
             <MainButton

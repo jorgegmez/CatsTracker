@@ -1,9 +1,6 @@
-import {
-  NavigationActions,
-  NavigationContainerComponent,
-} from 'react-navigation';
+import { NavigationActions, NavigationContainerComponent } from 'react-navigation';
 
-import {DrawerActions} from 'react-navigation-drawer';
+import { DrawerActions } from 'react-navigation-drawer';
 // import {routesAuth} from '@constants';
 
 let navigator: NavigationContainerComponent;
@@ -40,10 +37,4 @@ const goBack = () => {
 //   );
 // };
 
-export {
-  setTopLevelNavigator,
-  getTopLevelNavigator,
-  navigate,
-  toggleSideMenu,
-  goBack,
-};
+export { setTopLevelNavigator, getTopLevelNavigator, navigate, toggleSideMenu, goBack };

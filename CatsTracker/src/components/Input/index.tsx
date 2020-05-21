@@ -1,8 +1,7 @@
-import {Text, TextInput, TextInputProps, TextStyle, View} from 'react-native';
-import {colorsGlobal as colors, stringsAuth as strings} from '@constants';
+import { Text, TextInput, TextInputProps, TextStyle, View } from 'react-native';
+import { colorsGlobal as colors } from '@constants';
 
-import Icon from 'react-native-vector-icons/Feather';
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import styles from './styles';
 
 interface Props extends TextInputProps {
@@ -16,29 +15,14 @@ interface Props extends TextInputProps {
   onBlur?: (e: any) => void;
   hasError?: boolean;
   labelStyles?: TextStyle;
-  type: 'phone' | 'password' | 'normal' | 'code';
+  type: 'numeric' | 'normal';
   testID?: string;
   maxLength?: number;
 }
 
 class Input extends PureComponent<Props> {
-  state = {showPassword: false};
-
   render() {
-    const {
-      label,
-      placeholder,
-      value,
-      allowCapitalizeCase,
-      onChange,
-      onBlur,
-      hasError,
-      labelStyles,
-      type,
-      maxLength,
-      testID,
-    } = this.props;
-    const {showPassword} = this.state;
+    const { label, placeholder, value, allowCapitalizeCase, onChange, onBlur, hasError, labelStyles, type, maxLength, testID } = this.props;
     return (
       <View style={styles.container}>
         <Text style={[styles.inputTextLabel, labelStyles]}>{label}</Text>
@@ -48,39 +32,10 @@ class Input extends PureComponent<Props> {
             {
               borderBottomColor: hasError ? colors.ACCENT : colors.GREY,
             },
-          ]}>
-          {type === 'password' && (
+          ]}
+        >
+          {type === 'numeric' && (
             <View style={styles.inputContainer}>
-              <TextInput
-                testID={testID}
-                autoCapitalize={allowCapitalizeCase ? 'words' : 'none'}
-                placeholder={placeholder}
-                secureTextEntry={!showPassword}
-                autoCorrect={false}
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                style={[
-                  styles.inputStyle,
-                  {color: hasError ? colors.BLACK : colors.PRIMARY},
-                ]}
-              />
-              <Icon
-                name={!showPassword ? 'eye' : 'eye-off'}
-                size={20}
-                color={colors.PRIMARY}
-                style={styles.inputWithMaskIcon}
-                onPress={() => this.setState({showPassword: !showPassword})}
-                testID="eye-icon"
-              />
-            </View>
-          )}
-
-          {type === 'phone' && (
-            <View style={styles.inputContainer}>
-              <Text style={{marginRight: 20, fontSize: 16}}>
-                {strings.PREFIX_COUNTRY}
-              </Text>
               <TextInput
                 maxLength={maxLength}
                 testID={testID}
@@ -89,11 +44,7 @@ class Input extends PureComponent<Props> {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={[
-                  styles.inputStyle,
-                  {color: hasError ? colors.BLACK : colors.PRIMARY},
-                ]}
-                dataDetectorTypes="phoneNumber"
+                style={[styles.inputStyle, { color: hasError ? colors.BLACK : colors.PRIMARY }]}
                 keyboardType="numeric"
               />
             </View>
@@ -110,29 +61,7 @@ class Input extends PureComponent<Props> {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                style={[
-                  styles.inputStyle,
-                  {color: hasError ? colors.BLACK : colors.PRIMARY},
-                ]}
-              />
-            </View>
-          )}
-
-          {type === 'code' && (
-            <View style={styles.inputContainer}>
-              <TextInput
-                testID={testID}
-                placeholder={placeholder}
-                autoCorrect={false}
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                maxLength={6}
-                keyboardType="numeric"
-                style={[
-                  styles.inputStyleCode,
-                  {color: hasError ? colors.BLACK : colors.PRIMARY},
-                ]}
+                style={[styles.inputStyle, { color: hasError ? colors.BLACK : colors.PRIMARY }]}
               />
             </View>
           )}

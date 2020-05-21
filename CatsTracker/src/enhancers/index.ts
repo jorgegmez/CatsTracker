@@ -1,3 +1,3 @@
 import withKeyboardView from './withKeyboardView';
 
-export {withKeyboardView};
+export { withKeyboardView };

@@ -1,11 +1,11 @@
-import {StyleSheet} from 'react-native';
-import {colorsGlobal as colors} from '@constants';
+import { StyleSheet } from 'react-native';
+import { colorsGlobal as colors } from '@constants';
 
 const styles = StyleSheet.create({
   container: {
     height: 'auto',
     shadowColor: colors.BLACK,
-    shadowOffset: {height: 0, width: 0},
+    shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 0.75,
     shadowRadius: 5,
     alignItems: 'center',
@@ -51,4 +51,4 @@ const dynamicStyles = (logo?: number) =>
     },
   });
 
-export {styles, dynamicStyles};
+export { styles, dynamicStyles };

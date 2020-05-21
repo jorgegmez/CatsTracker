@@ -1,23 +1,17 @@
-import {
-  Text,
-  TextStyle,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-} from 'react-native';
+import { Text, TextStyle, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Icon from '../Icon';
-import React, {PureComponent, ReactNode} from 'react';
-import {colorsGlobal as colors} from '@constants';
+import React, { PureComponent, ReactNode } from 'react';
+import { colorsGlobal as colors } from '@constants';
 import styles from './styles';
 
 interface Props extends TouchableOpacityProps {
-  text?: string;
+  text: string;
   theme?: 'blue' | 'white' | 'gray';
   outline?: boolean;
   flat?: boolean;
-  icon?: {name: string; size?: number; color?: string; type: string};
+  icon?: { name: string; size?: number; color?: string; type: string };
   children?: ReactNode;
   customIcon?: boolean;
   readonly customTextStyle?: TextStyle[] | TextStyle;
@@ -31,11 +25,11 @@ interface Props extends TouchableOpacityProps {
 class MainButton extends PureComponent<Props> {
   render() {
     const {
-      text = null,
+      text,
       theme,
       outline,
       onPress,
-      icon = null,
+      icon,
       customTextStyle,
       customButtonStyle,
       flat,
@@ -46,21 +40,10 @@ class MainButton extends PureComponent<Props> {
     } = this.props;
 
     return flat ? (
-      <TouchableOpacity
-        disabled={disabled}
-        testID={testID}
-        style={[styles.buttonFlat, customButtonStyle]}
-        onPress={onPress}>
+      <TouchableOpacity disabled={disabled} testID={testID} style={[styles.buttonFlat, customButtonStyle]} onPress={onPress}>
         {customIcon && children}
-        {icon && (
-          <Icon
-            config={{...icon, color: colors.WHITE}}
-            style={text ? styles.icon : {}}
-          />
-        )}
-        {text && (
-          <Text style={[styles.textFlatButton, customTextStyle]}>{text}</Text>
-        )}
+        {icon && <Icon config={{ ...icon, color: colors.WHITE }} style={text ? styles.icon : {}} />}
+        {text && <Text style={[styles.textFlatButton, customTextStyle]}>{text}</Text>}
       </TouchableOpacity>
     ) : (
       <LinearGradient
@@ -73,7 +56,8 @@ class MainButton extends PureComponent<Props> {
           disabled && styles.buttonGray,
           customButtonStyle,
         ]}
-        colors={[colors.BLACK, colors.LIGHT_BLUE]}>
+        colors={[colors.BLACK, colors.LIGHT_BLUE]}
+      >
         <TouchableOpacity
           testID={testID}
           disabled={disabled}
@@ -86,7 +70,8 @@ class MainButton extends PureComponent<Props> {
             disabled && styles.buttonGray,
             customButtonStyle,
           ]}
-          onPress={onPress}>
+          onPress={onPress}
+        >
           <View style={styles.buttonContainer}>
             {customIcon && children}
             {icon && <Icon config={icon} style={styles.icon} />}
@@ -95,12 +80,10 @@ class MainButton extends PureComponent<Props> {
                 style={[
                   styles.text,
                   {
-                    color:
-                      theme === 'white' || outline === true
-                        ? colors.PRIMARY
-                        : colors.WHITE,
+                    color: theme === 'white' || outline === true ? colors.PRIMARY : colors.WHITE,
                   },
-                ]}>
+                ]}
+              >
                 {text}
               </Text>
             )}

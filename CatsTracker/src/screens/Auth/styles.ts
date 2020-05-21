@@ -1,5 +1,5 @@
-import {StyleSheet, Platform} from 'react-native';
-import {colorsGlobal as colors} from '@constants';
+import { StyleSheet, Platform } from 'react-native';
+import { colorsGlobal as colors } from '@constants';
 
 const customWidth = Platform.OS === 'ios' ? '140%' : '80%';
 

@@ -1,14 +1,12 @@
-import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
-import {Platform, PermissionsAndroid, Permission} from 'react-native';
+import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
+import { Platform, PermissionsAndroid, Permission } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 
 const getPlatform = () => (Platform.OS === 'ios' ? 'IOS' : 'ANDROID');
 const PERMISSON_GRANTED_MESSAGE = 'Permission is granted';
 const PERMISSON_NOT_GRANTED_MESSAGE = 'Permission is not granted';
 
-export const checkPermission = async (
-  permission: Permission,
-): Promise<PermissionsResponse> => {
+export const checkPermission = async (permission: Permission): Promise<PermissionsResponse> => {
   const result = await check(permission);
   const response: PermissionsResponse = {
     status: true,
@@ -40,9 +38,7 @@ export const checkPermission = async (
   return response;
 };
 
-export const requestPermission = async (
-  permission: Permission,
-): Promise<PermissionsResponse> => {
+export const requestPermission = async (permission: Permission): Promise<PermissionsResponse> => {
   const result = await request(permission);
   if (result === 'granted') {
     return {
@@ -56,9 +52,7 @@ export const requestPermission = async (
   };
 };
 
-export const checkOrRequestPermission = async (
-  permission: Permission,
-): Promise<PermissionsResponse> => {
+export const checkOrRequestPermission = async (permission: Permission): Promise<PermissionsResponse> => {
   const result = await check(permission);
   let requestResult = '';
   const response: PermissionsResponse = {
@@ -100,9 +94,7 @@ export const checkOrRequestPermission = async (
   return response;
 };
 
-export const checkOrRequestAndroidPermission = async (
-  permission: Permission,
-): Promise<PermissionsResponse> => {
+export const checkOrRequestAndroidPermission = async (permission: Permission): Promise<PermissionsResponse> => {
   const response: PermissionsResponse = {
     status: false,
     message: '',
@@ -129,43 +121,27 @@ export const checkOrRequestAndroidPermission = async (
 };
 
 export const checkOrRequestCamera = async (): Promise<PermissionsResponse> => {
-  return checkOrRequestPermission(
-    PERMISSIONS[getPlatform()].CAMERA as Permission,
-  );
+  return checkOrRequestPermission(PERMISSIONS[getPlatform()].CAMERA as Permission);
 };
 
-export const checkOrRequestAndroidStorage = async (): Promise<
-  PermissionsResponse
-> => {
-  return checkOrRequestAndroidPermission(
-    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-  );
+export const checkOrRequestAndroidStorage = async (): Promise<PermissionsResponse> => {
+  return checkOrRequestAndroidPermission(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
 };
 
-export const checkCameraPermissions = async (): Promise<
-  PermissionsResponse
-> => {
+export const checkCameraPermissions = async (): Promise<PermissionsResponse> => {
   return checkPermission(PERMISSIONS[getPlatform()].CAMERA as Permission);
 };
 
-export const checkOrRequestFineLocation = async (): Promise<
-  PermissionsResponse
-> => {
+export const checkOrRequestFineLocation = async (): Promise<PermissionsResponse> => {
   if (Platform.OS === 'ios') {
-    const result = await requestPermission(
-      PERMISSIONS.IOS.LOCATION_WHEN_IN_USE as Permission,
-    );
+    const result = await requestPermission(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE as Permission);
     return result;
   }
-  const androidResult = await checkOrRequestAndroidPermission(
-    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  );
+  const androidResult = await checkOrRequestAndroidPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
   return androidResult;
 };
 
-export const checkForRemoteNotificationsFCM = async (
-  currentPlatform: string,
-): Promise<PermissionsResponse> => {
+export const checkForRemoteNotificationsFCM = async (currentPlatform: string): Promise<PermissionsResponse> => {
   const response: PermissionsResponse = {
     status: true,
     message: PERMISSON_GRANTED_MESSAGE,
