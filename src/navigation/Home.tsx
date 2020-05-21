@@ -8,6 +8,7 @@ import Home from '@screens/Home';
 import LocateCat from '@screens/LocateCat';
 import SideBar from '@screens/Global/SideBar';
 import RegisterCat from '@screens/Global/SideBar/CatForm';
+import Settings from '@screens/Global/SideBar/Settings';
 
 const { width } = Dimensions.get('window');
 
@@ -16,6 +17,7 @@ const CatsStack = createStackNavigator(
     [routesHome.HOME]: Home,
     [routesCats.REGISTER_CAT]: RegisterCat,
     [routesHome.LOCATE_CAT]: LocateCat,
+    [routesHome.USER_SETTINGS]: Settings,
   },
   {
     initialRouteName: routesHome.HOME,

@@ -23,6 +23,9 @@ const goToCatsHome = (stepNumber = 1, params?: UserStateModel) => {
     case 3:
       routeName = routesHome.LOCATE_CAT;
       break;
+    case 4:
+      routeName = routesHome.USER_SETTINGS;
+      break;
     default:
       routeName = routesHome.HOME;
   }

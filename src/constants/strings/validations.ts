@@ -10,3 +10,9 @@ export const REGISTER_CAT_DESCRIPTION_INVALID_ERROR = 'Invalid Description';
 export const REGISTER_CAT_AGE_REQUIRED_ERROR = 'Age is required';
 export const REGISTER_CAT_AGE_INVALID_ERROR = 'Invalid age';
 export const REGISTER_PICTURE_REQUIRED_ERROR = 'Picture is required';
+
+export const UPDATE__SUCCESS_MESSAGE = 'Information updated';
+export const CONFIRMATION_DELETE_CAT = 'Are you sure you want to delete: ';
+export const COMFIRMATION_DELETE_CAT_SUBTITLE = 'This will not be undone!';
+export const CONFIRMATION_DELETE_BUTTON = 'Delete';
+export const CANCEL_DELETE_ACTION_BUTTON = 'Cancel';

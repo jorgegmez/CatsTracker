@@ -35,7 +35,7 @@ const SideBar = (props: Props) => {
   };
 
   const goToSettings = () => {
-    NavigationService.home.goToCatsHome(2);
+    NavigationService.home.goToCatsHome(4);
   };
 
   return (

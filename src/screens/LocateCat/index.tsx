@@ -21,7 +21,11 @@ class LocateCat extends React.PureComponent<Props, {}> {
         <Icon config={{ ...icons.HOME_OUTLINE, color: colors.WHITE, size: 30 }} style={styles.headerIcons} />
       </TouchableOpacity>
     ),
-    headerRight: () => <Icon config={{ ...icons.HAMBURGER_MENU, color: colors.WHITE, size: 30 }} style={styles.headerIcons} />,
+    headerRight: () => (
+      <TouchableOpacity onPress={() => NavigationService.core.toggleSideMenu()}>
+        <Icon config={{ ...icons.HAMBURGER_MENU, color: colors.WHITE, size: 30 }} style={styles.headerIcons} />
+      </TouchableOpacity>
+    ),
   };
 
   render() {
