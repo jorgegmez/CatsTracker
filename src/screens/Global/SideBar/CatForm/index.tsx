@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { createRef } from 'react';
 import { connect } from 'react-redux';
-import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, View, KeyboardAvoidingView, Platform } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 import { Formik } from 'formik';
 import { colorsGlobal as colors, stringsCat, imagesGlobal, validations } from '@constants';
@@ -119,77 +119,79 @@ class CatForm extends React.PureComponent<Props, State> {
         }
       : picture || imagesGlobal.ICON_CAT_AVATAR;
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
-          <Formik
-            initialValues={{
-              id,
-              name,
-              breed,
-              age,
-              description,
-              picture,
-            }}
-            validationSchema={catRegisterSchema}
-            onSubmit={this.handleUpdateCatMethod}
-          >
-            {props => (
-              <View style={styles.content}>
-                <Card customTextStyle={styles.customTextStyle} theme="white">
-                  <View style={styles.firstSectionHeaderStyle}>
-                    <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
+      <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
+        <SafeAreaView style={styles.safeArea}>
+          <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
+          <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
+            <Formik
+              initialValues={{
+                id,
+                name,
+                breed,
+                age,
+                description,
+                picture,
+              }}
+              validationSchema={catRegisterSchema}
+              onSubmit={this.handleUpdateCatMethod}
+            >
+              {props => (
+                <View style={styles.content}>
+                  <Card customTextStyle={styles.customTextStyle} theme="white">
+                    <View style={styles.firstSectionHeaderStyle}>
+                      <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
+                    </View>
+                    <View style={styles.secondSectionHeaderStyle}>
+                      <Input
+                        onChange={props.handleChange('name')}
+                        onBlur={props.handleBlur('name')}
+                        value={props.values.name}
+                        type="normal"
+                        label={stringsCat.REGISTER_CAT_NAME_TEXT}
+                        hasError={!!props.errors.name}
+                      />
+                      <Input
+                        onChange={props.handleChange('breed')}
+                        onBlur={props.handleBlur('breed')}
+                        value={props.values.breed}
+                        type="normal"
+                        label={stringsCat.REGISTER_CAT_BREED_TEXT}
+                        hasError={!!props.errors.breed}
+                      />
+                      <Input
+                        onChange={props.handleChange('age')}
+                        onBlur={props.handleBlur('age')}
+                        value={props.values.age}
+                        type="numeric"
+                        label={stringsCat.REGISTER_CAT_AGE_TEXT}
+                        hasError={!!props.errors.age}
+                      />
+                      <Input
+                        onChange={props.handleChange('description')}
+                        onBlur={props.handleBlur('description')}
+                        type="normal"
+                        value={props.values.description}
+                        label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
+                        hasError={!!props.errors.description}
+                      />
+                    </View>
+                  </Card>
+                  <View style={styles.buttonContainer}>
+                    <MainButton
+                      theme={themeOfButton}
+                      text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                      testID={_.uniqueId()}
+                      customButtonStyle={styles.mainButton}
+                      onPress={props.handleSubmit}
+                    />
                   </View>
-                  <View style={styles.secondSectionHeaderStyle}>
-                    <Input
-                      onChange={props.handleChange('name')}
-                      onBlur={props.handleBlur('name')}
-                      value={props.values.name}
-                      type="normal"
-                      label={stringsCat.REGISTER_CAT_NAME_TEXT}
-                      hasError={!!props.errors.name}
-                    />
-                    <Input
-                      onChange={props.handleChange('breed')}
-                      onBlur={props.handleBlur('breed')}
-                      value={props.values.breed}
-                      type="normal"
-                      label={stringsCat.REGISTER_CAT_BREED_TEXT}
-                      hasError={!!props.errors.breed}
-                    />
-                    <Input
-                      onChange={props.handleChange('age')}
-                      onBlur={props.handleBlur('age')}
-                      value={props.values.age}
-                      type="numeric"
-                      label={stringsCat.REGISTER_CAT_AGE_TEXT}
-                      hasError={!!props.errors.age}
-                    />
-                    <Input
-                      onChange={props.handleChange('description')}
-                      onBlur={props.handleBlur('description')}
-                      type="normal"
-                      value={props.values.description}
-                      label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
-                      hasError={!!props.errors.description}
-                    />
-                  </View>
-                </Card>
-                <View style={styles.buttonContainer}>
-                  <MainButton
-                    theme={themeOfButton}
-                    text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
-                    testID={_.uniqueId()}
-                    customButtonStyle={styles.mainButton}
-                    onPress={props.handleSubmit}
-                  />
                 </View>
-              </View>
-            )}
-          </Formik>
-        </ScrollView>
-        <Loading showModal={loading} />
-      </SafeAreaView>
+              )}
+            </Formik>
+          </ScrollView>
+          <Loading showModal={loading} />
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }

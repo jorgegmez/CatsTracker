@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { SafeAreaView, StatusBar, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StatusBar, View, Image, FlatList, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import _ from 'lodash';
@@ -216,74 +216,76 @@ class Home extends React.PureComponent<Props, State> {
               </View>
             </View>
           ) : (
-            <ScrollView bounces={false}>
-              <CustomHeader
-                logo={imagesGlobal.ICON_SAD_CAT}
-                title={stringsHome.HOME_NO_CATS_TITLE_TEXT}
-                info={stringsHome.HOME_NO_CATS_SUBTITLE_TEXT}
-              />
-              <Formik
-                initialValues={{
-                  id: '',
-                  name: '',
-                  breed: '',
-                  age: 0,
-                  description: '',
-                  picture: imagePlacement,
-                }}
-                validationSchema={catRegisterSchema}
-                onSubmit={this.handleRegisterCatMethod}
-              >
-                {props => (
-                  <View style={styles.content}>
-                    <Card customTextStyle={styles.customTextStyle} theme="white">
-                      <View style={styles.firstSectionHeaderStyle}>
-                        <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
-                      </View>
-                      <View style={styles.secondSectionHeaderStyle}>
-                        <Input
-                          onChange={props.handleChange('name')}
-                          onBlur={props.handleBlur('name')}
-                          type="normal"
-                          label={stringsCat.REGISTER_CAT_NAME_TEXT}
-                          hasError={!!props.errors.name}
-                        />
-                        <Input
-                          onChange={props.handleChange('breed')}
-                          onBlur={props.handleBlur('breed')}
-                          type="normal"
-                          label={stringsCat.REGISTER_CAT_BREED_TEXT}
-                          hasError={!!props.errors.breed}
-                        />
-                        <Input
-                          onChange={props.handleChange('age')}
-                          onBlur={props.handleBlur('age')}
-                          type="numeric"
-                          label={stringsCat.REGISTER_CAT_AGE_TEXT}
-                          hasError={!!props.errors.age}
-                        />
-                        <Input
-                          onChange={props.handleChange('description')}
-                          onBlur={props.handleBlur('description')}
-                          type="normal"
-                          label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
-                          hasError={!!props.errors.description}
-                        />
-                      </View>
-                      <View style={styles.buttonContainer}>
-                        <MainButton
-                          theme={themeOfButton}
-                          text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
-                          testID={_.uniqueId()}
-                          customButtonStyle={styles.mainButton}
-                          onPress={props.handleSubmit}
-                        />
-                      </View>
-                    </Card>
-                  </View>
-                )}
-              </Formik>
-            </ScrollView>
+            <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
+              <ScrollView bounces={false}>
+                <CustomHeader
+                  logo={imagesGlobal.ICON_SAD_CAT}
+                  title={stringsHome.HOME_NO_CATS_TITLE_TEXT}
+                  info={stringsHome.HOME_NO_CATS_SUBTITLE_TEXT}
+                />
+                <Formik
+                  initialValues={{
+                    id: '',
+                    name: '',
+                    breed: '',
+                    age: 0,
+                    description: '',
+                    picture: imagePlacement,
+                  }}
+                  validationSchema={catRegisterSchema}
+                  onSubmit={this.handleRegisterCatMethod}
+                >
+                  {props => (
+                    <View style={styles.content}>
+                      <Card customTextStyle={styles.customTextStyle} theme="white">
+                        <View style={styles.firstSectionHeaderStyle}>
+                          <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
+                        </View>
+                        <View style={styles.secondSectionHeaderStyle}>
+                          <Input
+                            onChange={props.handleChange('name')}
+                            onBlur={props.handleBlur('name')}
+                            type="normal"
+                            label={stringsCat.REGISTER_CAT_NAME_TEXT}
+                            hasError={!!props.errors.name}
+                          />
+                          <Input
+                            onChange={props.handleChange('breed')}
+                            onBlur={props.handleBlur('breed')}
+                            type="normal"
+                            label={stringsCat.REGISTER_CAT_BREED_TEXT}
+                            hasError={!!props.errors.breed}
+                          />
+                          <Input
+                            onChange={props.handleChange('age')}
+                            onBlur={props.handleBlur('age')}
+                            type="numeric"
+                            label={stringsCat.REGISTER_CAT_AGE_TEXT}
+                            hasError={!!props.errors.age}
+                          />
+                          <Input
+                            onChange={props.handleChange('description')}
+                            onBlur={props.handleBlur('description')}
+                            type="normal"
+                            label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
+                            hasError={!!props.errors.description}
+                          />
+                        </View>
+                        <View style={styles.buttonContainer}>
+                          <MainButton
+                            theme={themeOfButton}
+                            text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                            testID={_.uniqueId()}
+                            customButtonStyle={styles.mainButton}
+                            onPress={props.handleSubmit}
+                          />
+                        </View>
+                      </Card>
+                    </View>
+                  )}
+                </Formik>
+              </ScrollView>
+            </KeyboardAvoidingView>
           )}
         </View>
         <Loading showModal={loading} />
