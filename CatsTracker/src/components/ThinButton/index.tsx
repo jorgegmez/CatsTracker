@@ -6,7 +6,9 @@ type Props = {
   text: string;
   customStyleContainer?: TextStyle;
   customStyleLinkText?: TextStyle;
-  onPress?: (catId?: string, cats?: CatPet[]) => void;
+  onPress: () => void;
+  // handleLocateCatSer?: () => void;
+  // isLocate: boolean;
 };
 
 class ThinButton extends PureComponent<Props> {

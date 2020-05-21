@@ -120,7 +120,7 @@ class Home extends React.PureComponent<Props, State> {
   };
 
   handleCatLocation = () => {
-    // add logic
+    NavigationService.home.goToCatsHome(3);
   };
 
   render() {

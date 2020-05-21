@@ -5,8 +5,9 @@ import { Dimensions } from 'react-native';
 import { routesHome, routesCats, colorsGlobal as colors } from '@constants';
 
 import Home from '@screens/Home';
-import RegisterCat from '@screens/Global/SideBar/CatForm';
+import LocateCat from '@screens/LocateCat';
 import SideBar from '@screens/Global/SideBar';
+import RegisterCat from '@screens/Global/SideBar/CatForm';
 
 const { width } = Dimensions.get('window');
 
@@ -14,6 +15,7 @@ const CatsStack = createStackNavigator(
   {
     [routesHome.HOME]: Home,
     [routesCats.REGISTER_CAT]: RegisterCat,
+    [routesHome.LOCATE_CAT]: LocateCat,
   },
   {
     initialRouteName: routesHome.HOME,
