@@ -2,20 +2,17 @@
 import React, { createRef } from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
-import DropdownAlert from 'react-native-dropdownalert';
 import { Formik } from 'formik';
-import { colorsGlobal as colors, stringsCat, imagesGlobal, validations } from '@constants';
+import { colorsGlobal as colors, stringsAuth, imagesGlobal, validations } from '@constants';
 import { Titles, MainButton, Input, ProfilePicture, Loading, Card } from '@components';
-import { registerCatInfoRegisterAction } from '@state/global/user/actions';
-import { resetCatFieldsAction } from '@state/global/cat/actions';
+import { registerUserInfoAction } from '@state/global/user/actions';
+import DropdownAlert from 'react-native-dropdownalert';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
-import { handleUpdateCat, handleRegisterCat } from '@helpers/handlerCatsData';
 import { NavigationService } from '@services';
 import universalUtils from '@helpers/universal';
-import _ from 'lodash';
-import { catRegisterSchema } from './schema';
-import * as catSelectors from '@state/global/cat/selector';
 import * as userSelectos from '@state/global/user/selector';
+import _ from 'lodash';
+import { userUpdateSchema } from './schema';
 
 import styles from './styles';
 
@@ -27,15 +24,13 @@ type State = {
 };
 
 type Props = {
-  catInfo: CatStateModel;
   userInfo: UserStateModel;
-  registerCatInfoRegister: (cats: CatPet[]) => void;
-  resetCatFields: () => void;
+  registerUserInfo: (userInfo: UpdateUserStateModel) => void;
 };
 
-class CatForm extends React.PureComponent<Props, State> {
+class Settings extends React.PureComponent<Props, State> {
   static navigationOptions = {
-    headerTitle: () => <Titles.H3 customStyle={styles.headerNav} text={stringsCat.REGISTER_CAT_BUTTON_TEXT} />,
+    headerTitle: () => <Titles.H3 customStyle={styles.headerNav} text={stringsAuth.UPDATE_USER_NAV_TITLE} />,
   };
 
   state: State = {
@@ -46,11 +41,6 @@ class CatForm extends React.PureComponent<Props, State> {
   };
 
   notificationRef = createRef<DropdownAlert>();
-
-  componentWillUnmount() {
-    const { resetCatFields } = this.props;
-    resetCatFields();
-  }
 
   private selectProfileImage = async (fileName?: string) => {
     const { setProfilePicture } = this.state;
@@ -74,32 +64,23 @@ class CatForm extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleUpdateCatMethod = async ({ id, name, breed, age, description, picture }: CatPet) => {
+  public handleUpdateUserMethod = async ({ name, lastName, profilePicture }: UpdateUserStateModel) => {
     const {
-      registerCatInfoRegister,
-      resetCatFields,
-      userInfo: {
-        data: { myCats },
-      },
+      registerUserInfo,
     } = this.props;
-    let cats: CatPet[];
-
-    if (id && name && breed && age && description && picture) {
-      cats = handleUpdateCat({ id, name, breed, age, description, picture }, myCats);
-    } else {
-      const cat: CatPet = {
+    const newUser: UpdateUserStateModel = {
         name,
-        breed,
-        age,
-        description,
-        picture: picture || imagesGlobal.ICON_CAT_AVATAR,
-      };
-      cats = handleRegisterCat(cat, myCats);
+        lastName,
+        profilePicture,
+    };
+
+    if (name && lastName && profilePicture) {
+        registerUserInfo(newUser);
+        this.showSuccessMessage();
+        setTimeout(() => {
+            NavigationService.home.goToCatsHome(0);
+        }, 1000);
     }
-    this.showSuccessMessage();
-    registerCatInfoRegister(cats);
-    NavigationService.home.goToCatsHome(0);
-    resetCatFields();
   };
 
   private showSuccessMessage = () => {
@@ -108,8 +89,8 @@ class CatForm extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      catInfo: {
-        data: { id, name, breed, age, description, picture },
+      userInfo: {
+        data: { name, lastName, profilePicture },
       },
     } = this.props;
     const { themeOfButton, userProfileImage, loading } = this.state;
@@ -117,22 +98,19 @@ class CatForm extends React.PureComponent<Props, State> {
       ? {
           uri: userProfileImage,
         }
-      : picture || imagesGlobal.ICON_CAT_AVATAR;
+      : profilePicture || imagesGlobal.ICON_AVATAR;
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
         <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
           <Formik
             initialValues={{
-              id,
               name,
-              breed,
-              age,
-              description,
-              picture,
+              lastName,
+              profilePicture: imagePlacement,
             }}
-            validationSchema={catRegisterSchema}
-            onSubmit={this.handleUpdateCatMethod}
+            validationSchema={userUpdateSchema}
+            onSubmit={this.handleUpdateUserMethod}
           >
             {props => (
               <View style={styles.content}>
@@ -146,39 +124,23 @@ class CatForm extends React.PureComponent<Props, State> {
                       onBlur={props.handleBlur('name')}
                       value={props.values.name}
                       type="normal"
-                      label={stringsCat.REGISTER_CAT_NAME_TEXT}
+                      label={stringsAuth.REGISTER_USER_NAME_TEXT}
                       hasError={!!props.errors.name}
                     />
                     <Input
-                      onChange={props.handleChange('breed')}
-                      onBlur={props.handleBlur('breed')}
-                      value={props.values.breed}
+                      onChange={props.handleChange('lastName')}
+                      onBlur={props.handleBlur('lastName')}
+                      value={props.values.lastName}
                       type="normal"
-                      label={stringsCat.REGISTER_CAT_BREED_TEXT}
-                      hasError={!!props.errors.breed}
-                    />
-                    <Input
-                      onChange={props.handleChange('age')}
-                      onBlur={props.handleBlur('age')}
-                      value={props.values.age}
-                      type="numeric"
-                      label={stringsCat.REGISTER_CAT_AGE_TEXT}
-                      hasError={!!props.errors.age}
-                    />
-                    <Input
-                      onChange={props.handleChange('description')}
-                      onBlur={props.handleBlur('description')}
-                      type="normal"
-                      value={props.values.description}
-                      label={stringsCat.REGISTER_CAT_DESCRIPTION_TEXT}
-                      hasError={!!props.errors.description}
+                      label={stringsAuth.REGISTER_USER_LASTNAME_TEXT}
+                      hasError={!!props.errors.lastName}
                     />
                   </View>
                 </Card>
                 <View style={styles.buttonContainer}>
                   <MainButton
                     theme={themeOfButton}
-                    text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                    text={stringsAuth.UPDATE_USER_BUTTON}
                     testID={_.uniqueId()}
                     customButtonStyle={styles.mainButton}
                     onPress={props.handleSubmit}
@@ -195,13 +157,11 @@ class CatForm extends React.PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  catInfo: catSelectors.CatSelector(state),
   userInfo: userSelectos.UserSelector(state),
 });
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
-  registerCatInfoRegister: (data: CatPet[]) => dispatch(registerCatInfoRegisterAction(data)),
-  resetCatFields: () => dispatch(resetCatFieldsAction()),
+  registerUserInfo: (data: UpdateUserStateModel) => dispatch(registerUserInfoAction(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CatForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

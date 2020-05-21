@@ -4,8 +4,8 @@ import { SafeAreaView, StatusBar, View, Image, FlatList, TouchableOpacity } from
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import _ from 'lodash';
-import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlobal, stringsCat, icons } from '@constants';
-import { Titles, MainButton, CustomHeader, Loading, Input, ProfilePicture, StepButton, Icon, BodyText, Card, ThinButton } from '@components';
+import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlobal, stringsCat, icons, validations } from '@constants';
+import { Titles, MainButton, CustomHeader, Loading, Input, ProfilePicture, StepButton, Icon, BodyText, Card, ThinButton, Modal } from '@components';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
 import { updateCurrentCatAction } from '@state/global/cat/actions';
@@ -32,13 +32,14 @@ type State = {
   loading: boolean;
   isCatSelect: boolean;
   currentCatId?: string;
+  showModal: boolean;
 };
 
 class Home extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerTitle: () => <Image source={images.CAT} style={styles.headerCat} />,
     headerRight: () => (
-      <TouchableOpacity style={styles.burgerMenuIcon}>
+      <TouchableOpacity onPress={() => NavigationService.core.toggleSideMenu()} style={styles.burgerMenuIcon}>
         <Icon config={{ ...icons.HAMBURGER_MENU, size: 20, color: colors.WHITE }} />
       </TouchableOpacity>
     ),
@@ -51,6 +52,7 @@ class Home extends React.PureComponent<Props, State> {
     loading: false,
     isCatSelect: false,
     currentCatId: '',
+    showModal: false,
   };
 
   private selectProfileImage = async (fileName?: string) => {
@@ -96,14 +98,20 @@ class Home extends React.PureComponent<Props, State> {
     });
   };
 
-  deleteCat = (catId?: string) => {
+  callModalCofirmation = () => {
+    const { showModal } = this.state;
+    this.setState({ showModal: !showModal });
+  }
+
+  deleteCat = () => {
     const {
       userInfo: {
         data: { myCats },
       },
       registerCatInfoRegister,
     } = this.props;
-    const newCats = handleDeleteCat(catId, myCats);
+    const { currentCatId } = this.state;
+    const newCats = handleDeleteCat(currentCatId, myCats);
     registerCatInfoRegister(newCats);
   };
 
@@ -124,7 +132,7 @@ class Home extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { themeOfButton, userProfileImage, loading, isCatSelect, currentCatId } = this.state;
+    const { themeOfButton, userProfileImage, loading, isCatSelect, currentCatId, showModal } = this.state;
     const {
       userInfo: {
         data: { myCats },
@@ -185,7 +193,7 @@ class Home extends React.PureComponent<Props, State> {
                           </View>
                           <View style={styles.buttonsContainer}>
                             <ThinButton
-                              onPress={() => this.deleteCat(cat.item.id)}
+                              onPress={this.callModalCofirmation}
                               customStyleLinkText={styles.linkButtonDelete}
                               text={stringsCat.HOME_CAT_DELETE_BUTTON}
                             />
@@ -279,6 +287,16 @@ class Home extends React.PureComponent<Props, State> {
           )}
         </View>
         <Loading showModal={loading} />
+        {showModal && (<Modal
+          showModal={showModal}
+          icon={imagesGlobal.ICON_WARNING}
+          title={validations.CONFIRMATION_DELETE_CAT}
+          info={validations.COMFIRMATION_DELETE_CAT_SUBTITLE}
+          textButtonOk={validations.CONFIRMATION_DELETE_BUTTON}
+          textButtonCancel={validations.CANCEL_DELETE_ACTION_BUTTON}
+          onPressOk={this.deleteCat}
+          onPressCancel={this.callModalCofirmation}
+        />)}
       </SafeAreaView>
     );
   }

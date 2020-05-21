@@ -7,3 +7,5 @@ export const AUTH__IDENTIFY_BUTTON_TEXT = 'Identify';
 export const AUTH_IDENTIFY_NAV_TEXT = 'Identify Your Self';
 export const REGISTER_USER_LASTNAME_TEXT = 'Please enter you last name';
 export const REGISTER_SET_PROFILE_PICTURE = 'Please set your profile picture';
+export const UPDATE_USER_BUTTON = 'Update';
+export const UPDATE_USER_NAV_TITLE = 'Update User Information';
