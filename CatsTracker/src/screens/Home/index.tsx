@@ -4,20 +4,7 @@ import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import _ from 'lodash';
 import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlobal, stringsCat, icons } from '@constants';
-import {
-  Titles,
-  MainButton,
-  CustomHeader,
-  Loading,
-  RegisterForm,
-  Input,
-  ProfilePicture,
-  StepButton,
-  Icon,
-  BodyText,
-  Card,
-  ThinButton,
-} from '@components';
+import { Titles, MainButton, CustomHeader, Loading, Input, ProfilePicture, StepButton, Icon, BodyText, Card, ThinButton } from '@components';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
 import * as userSelectors from '@state/global/user/selector';

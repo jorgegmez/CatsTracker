@@ -14,3 +14,7 @@ export const registerCatInfo = (payload: CatPet[]) => ({
   type: actions.REGISTER_CAT_INFO,
   payload,
 });
+
+export const logout = () => ({
+  type: actions.RESET_FIELDS_USER,
+});

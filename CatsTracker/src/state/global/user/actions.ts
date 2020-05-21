@@ -12,3 +12,7 @@ export const setUserProfilePictureAction = (payload?: UpdateUserStateModel) => (
 export const registerCatInfoRegisterAction = (payload: CatPet[]) => (dispatch: Dispatch) => {
   dispatch(actionCreators.registerCatInfo(payload));
 };
+
+export const logoutAction = () => (dispatch: Dispatch) => {
+  dispatch(actionCreators.logout());
+};

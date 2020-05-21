@@ -8,7 +8,7 @@ import { registerCatInfoRegisterAction } from '@state/global/user/actions';
 import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { handleRegisterCat } from '@helpers/handlerCatsData';
 import _ from 'lodash';
-import { catRegisterSchema } from '../Home/schema';
+import { catRegisterSchema } from './schema';
 import * as userSelectors from '@state/global/user/selector';
 
 import styles from './styles';
@@ -25,7 +25,7 @@ type Props = {
   registerCatInfoRegister: (cats: CatPet[]) => void;
 };
 
-class RegisterCat extends React.PureComponent<Props, State> {
+class CatForm extends React.PureComponent<Props, State> {
   static navigationOptions = {
     headerTitle: () => <Titles.H3 customStyle={styles.headerNav} text={stringsCat.REGISTER_CAT_BUTTON_TEXT} />,
   };
@@ -59,7 +59,7 @@ class RegisterCat extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleRegisterCat = async ({ id, name, breed, age, description, picture }: CatPet) => {
+  public handleRegisterCatMethod = async ({ name, breed, age, description, picture }: CatPet) => {
     const {
       registerCatInfoRegister,
       userInfo: {
@@ -67,7 +67,7 @@ class RegisterCat extends React.PureComponent<Props, State> {
       },
     } = this.props;
     if (name && breed && age && description && picture) {
-      const cats = handleRegisterCat({ id, name, breed, age, description, picture }, myCats);
+      const cats = handleRegisterCat({ name, breed, age, description, picture }, myCats);
       registerCatInfoRegister(cats);
     }
   };
@@ -131,24 +131,16 @@ class RegisterCat extends React.PureComponent<Props, State> {
                       hasError={!!props.errors.description}
                     />
                   </View>
-                  <View style={styles.buttonContainer}>
-                    <MainButton
-                      theme={themeOfButton}
-                      text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
-                      testID={_.uniqueId()}
-                      customButtonStyle={styles.mainButton}
-                      onPress={props.handleSubmit}
-                    />
-                  </View>
                 </Card>
-                {/* <View style={styles.grow} /> */}
-                {/* <MainButton
-                      theme={themeOfButton}
-                      text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
-                      testID={_.uniqueId()}
-                      customButtonStyle={styles.mainButton}
-                      onPress={props.handleSubmit}
-                    /> */}
+                <View style={styles.buttonContainer}>
+                  <MainButton
+                    theme={themeOfButton}
+                    text={stringsCat.REGISTER_CAT_BUTTON_TEXT}
+                    testID={_.uniqueId()}
+                    customButtonStyle={styles.mainButton}
+                    onPress={props.handleSubmit}
+                  />
+                </View>
               </View>
             )}
           </Formik>
@@ -167,4 +159,4 @@ const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
   registerCatInfoRegister: (data: CatPet[]) => dispatch(registerCatInfoRegisterAction(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterCat);
+export default connect(mapStateToProps, mapDispatchToProps)(CatForm);

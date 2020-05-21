@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+  buttonContainer: {
+    width: '85%',
+    alignSelf: 'center',
+  },
   customTextStyle,
   headerNav,
 });

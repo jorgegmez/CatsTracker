@@ -4,7 +4,7 @@ export const initialState: UserStateModel = {
   data: {
     name: '',
     lastName: '',
-    profilePicture: '',
+    profilePicture: 0,
     myCats: [],
   },
   pending: false,
@@ -39,6 +39,9 @@ const reducer = (state: UserStateModel = initialState, action: Action) => {
           myCats: action.payload,
         },
       };
+
+    case actions.RESET_FIELDS_USER:
+      return initialState;
 
     default:
       return state;
