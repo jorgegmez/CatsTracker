@@ -6,8 +6,8 @@ interface Action {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type StateType<TReducerOrMap extends any> = ReturnType<TReducerOrMap>;
 type reducerTypes = StateType<typeof import('@state/reducers').default>;
-// eslint-disable-next-line
-  interface RootState extends reducerTypes {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface RootState extends reducerTypes {}
 // interface RootState extends reducerTypes {}
 
 interface DispatchRSSA {
@@ -19,6 +19,7 @@ interface DispatchRSSA {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface RSAAActionAuthorized<State = any, Payload = any, Meta = any> {
+  // eslint-disable-next-line import/no-unresolved
   [typeof import('@middlewares').RSAA_AUTH]: RSAACall<State, Payload, Meta>;
 }
 

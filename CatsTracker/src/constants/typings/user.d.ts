@@ -20,6 +20,6 @@ interface UserStateModel extends ReduxStateModel {
 interface UpdateUserStateModel {
   name?: string;
   lastName?: string;
-  profilePicture: number;
-  myCats: CatPet[];
+  profilePicture?: number;
+  myCats?: CatPet[];
 }

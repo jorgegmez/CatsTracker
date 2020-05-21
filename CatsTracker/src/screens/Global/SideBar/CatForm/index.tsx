@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';

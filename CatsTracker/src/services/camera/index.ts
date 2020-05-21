@@ -1,6 +1,5 @@
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import { queue } from '@constants';
-import { setUserProfilePictureAction } from '@state/global/user/actions';
 
 // Custom options for the showImagePicker function. See API reference
 // https://github.com/react-native-community/react-native-image-picker
@@ -30,9 +29,7 @@ export const handleOpenGallery = async (fileName: string): Promise<QueueItem> =>
         queue: queue.REGISTER_QUEUE,
       };
       // call a helper method later
-      console.log('from camera', imageData);
       return imageData;
-      // setUserProfilePictureAction({ profilePicture: imageData.uri });
     });
   });
 };

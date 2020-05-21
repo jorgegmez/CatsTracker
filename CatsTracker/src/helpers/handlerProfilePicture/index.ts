@@ -1,6 +1,5 @@
 import { Linking } from 'react-native';
 import { PermissionsService, Camera } from '@services';
-import { imagesGlobal as images } from '@constants';
 
 const getPermissions = async () => {
   const result = await PermissionsService.checkOrRequestCamera();
@@ -19,11 +18,8 @@ const getPermissions = async () => {
 export const handleSelectProfileImage = async ({ fileName }: { fileName?: string }) => {
   if (fileName) {
     const hasPermissions = await getPermissions();
-    console.log('handleSelectProfileImage --> hasPermissions', hasPermissions);
     if (hasPermissions) {
-      console.log('handleSelectProfileImage --> fileName', fileName);
       const imageFile = await Camera.handleOpenGallery(fileName);
-      console.log('handleSelectProfileImage --> imageFile', imageFile);
       if (imageFile.uri && imageFile.url) {
         // const {uri, url} = imageFile;
         return imageFile.uri;

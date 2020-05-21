@@ -29,7 +29,9 @@ const createQueue = async (queueName: string): Promise<void> => {
 
 const clearQueues = async (): Promise<void> => {
   const allKeys = await AsyncStorage.getAllKeys();
-  const allQueues = allKeys.filter((key) => key.startsWith(queue.QUEUE_PREFIX));
+
+  // eslint-disable-next-line prettier/prettier
+  const allQueues = allKeys.filter(key => key.startsWith(queue.QUEUE_PREFIX));
   return AsyncStorage.multiRemove(allQueues);
 };
 

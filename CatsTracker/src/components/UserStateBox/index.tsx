@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import _ from 'lodash';
 import { View, Text, TextStyle, ImageBackground, ImageSourcePropType, Dimensions } from 'react-native';
 import { imagesGlobal } from '@constants';
 import styles from './styles';

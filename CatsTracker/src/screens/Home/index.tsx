@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { SafeAreaView, StatusBar, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
@@ -114,7 +115,6 @@ class Home extends React.PureComponent<Props, State> {
       updateCurrentCat,
     } = this.props;
     const currentCat = myCats.find(cat => cat.id === catId);
-    console.log('updateCatInfo', currentCat);
     updateCurrentCat(currentCat);
     NavigationService.home.goToCatsHome(1);
   };
