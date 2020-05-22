@@ -1,0 +1,6 @@
+module Pods_CatsTracker {
+  umbrella header "Pods-CatsTracker-umbrella.h"
+
+  export *
+  module * { export * }
+}

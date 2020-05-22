@@ -1,0 +1,41 @@
+export const PRIMARY = '#0055B8';
+export const SECONDARY = '#0A4FA0';
+export const ACCENT = '#AF2923';
+export const BLACK = '#000000';
+export const MID_BLACK = '#333333';
+export const WHITE = '#FFFFFF';
+export const GRAY = '#CCCAC4';
+export const OFF_WHITE = '#F5F4EF';
+export const LIGHT_GRAY = '#F5F4EF';
+export const MID_GRAY = '#CCCAC4';
+export const LIGHT_BLUE = '#1C75DD';
+export const LIGHT_GRAY_2 = '#FAF9F2';
+export const LIGHT_GRAY_3 = '#E0DFD9';
+export const LIGHT_GRAY_4 = '#EFEFF0';
+export const MILD_GRAY = '#C2C2C8';
+export const BORDER_GRAY = '#EAE9E4';
+export const MID_LIGHT_GREY = '#8A8A91';
+export const SHADOW_GRAY = '#00000024';
+export const ORANGE_GRAY = '#F5F4EF';
+export const DARK_TEXT = '#2D2D30';
+export const LIGHT_GRAY_TRANSPARENCY = '#00000080';
+export const LIGHT_TEXT = '#8A8A91';
+export const GREY_WITH_OPACITY = 'rgba(158, 150, 150, .1)';
+export const GAINSBORO = '#C2C2C8';
+export const COMET = '#6B6B82';
+export const GREY = '#CCCCCC';
+export const DARK_GRAY = '#706F6C';
+export const TRANSPARENT = 'transparent';
+export const LIGHT_GREY = '#3377C6';
+export const ORANGE = '#FF4713';
+export const GREEN = '#00c11d';
+export const PRIMARY_DARK = '#004493';
+export const RED = '#ff1313';
+export const DANGER = '#FF1313';
+
+export const DARK_BLUE = '#001DBF';
+export const PURPLE = '#A653D1';
+
+// CHARTS
+export const DARK_BLUE_CHART = '#003674';
+export const LIGHT_BLUE_CHART = '#3676CB';
