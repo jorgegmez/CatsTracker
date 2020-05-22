@@ -78,7 +78,7 @@ class Home extends React.PureComponent<Props, State> {
           userProfileImage: source.uri,
         });
         const catPicture: UpdateCatStateModel = {
-          picture: source.uri,
+          picture: { uri: source.uri },
         };
         setCatPicture(catPicture);
       }
@@ -140,8 +140,8 @@ class Home extends React.PureComponent<Props, State> {
     NavigationService.home.goToCatsHome(1);
   };
 
-  handleCatLocation = () => {
-    NavigationService.home.goToCatsHome(3);
+  handleCatLocation = (cat: CatPet) => {
+    NavigationService.home.goToCatsHome(3, { name: cat.name, coordinates: cat.coordinates });
   };
 
   render() {
@@ -217,7 +217,7 @@ class Home extends React.PureComponent<Props, State> {
                               text={stringsCat.HOME_CAT_UPDATE_BUTTON}
                             />
                             <ThinButton
-                              onPress={this.handleCatLocation}
+                              onPress={() => this.handleCatLocation(cat.item)}
                               customStyleLinkText={styles.linkButtonLocate}
                               text={stringsCat.HOME_CAT_LOCATE_BUTTON}
                             />

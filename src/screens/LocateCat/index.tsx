@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, Image, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { NavigationParams } from 'react-navigation';
 import { connect } from 'react-redux';
 import { colorsGlobal as colors, imagesGlobal as images, icons, imagesGlobal } from '@constants';
 import { Icon } from '@components';
@@ -11,6 +12,7 @@ import { NavigationService } from '@services';
 
 type Props = {
   catInfo: CatPet;
+  navigation: NavigationParams;
 };
 
 class LocateCat extends React.PureComponent<Props, {}> {
@@ -29,7 +31,13 @@ class LocateCat extends React.PureComponent<Props, {}> {
   };
 
   render() {
-    const { catInfo } = this.props;
+    const {
+      catInfo,
+      navigation: {
+        state: { params: { name, coordinates } }
+      },
+    } = this.props;
+    console.log('navigation', name);
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
@@ -44,10 +52,10 @@ class LocateCat extends React.PureComponent<Props, {}> {
         >
           <Marker
             tracksViewChanges
-            title={catInfo.name}
+            title={name}
             coordinate={{
-              latitude: catInfo.coordinates ? catInfo.coordinates.latitude : 9.863889,
-              longitude: catInfo.coordinates ? catInfo.coordinates.longitude : -83.912778,
+              latitude: coordinates ? coordinates.latitude : 9.863889,
+              longitude: coordinates ? coordinates.longitude : -83.912778,
             }}
             image={imagesGlobal.ICON_CAT_MAP_AVATAR}
           />

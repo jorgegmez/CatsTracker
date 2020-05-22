@@ -11,7 +11,7 @@ const goToHome = () => {
   );
 };
 
-const goToCatsHome = (stepNumber = 1, params?: UserStateModel) => {
+const goToCatsHome = (stepNumber = 1, params?: UpdateUserStateModel | UpdateCatStateModel) => {
   let routeName = '';
   switch (stepNumber) {
     case 0:

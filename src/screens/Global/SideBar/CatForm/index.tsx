@@ -120,7 +120,7 @@ class CatForm extends React.PureComponent<Props, State> {
   render() {
     const {
       catInfo: {
-        data: { id, name, breed, age, description },
+        data: { id, name, breed, age, description, picture: catPicture },
       },
     } = this.props;
     const { themeOfButton, userProfileImage, loading } = this.state;
@@ -128,7 +128,7 @@ class CatForm extends React.PureComponent<Props, State> {
       ? {
           uri: userProfileImage,
         }
-      : imagesGlobal.ICON_CAT_AVATAR;
+      : catPicture || imagesGlobal.ICON_CAT_AVATAR;
 
     return (
       <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
@@ -142,7 +142,7 @@ class CatForm extends React.PureComponent<Props, State> {
                 breed,
                 age,
                 description,
-                picture: imagePlacement,
+                picture: catPicture || imagePlacement,
               }}
               validationSchema={catRegisterSchema}
               onSubmit={this.handleUpdateCatMethod}
