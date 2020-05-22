@@ -87,10 +87,11 @@ const linkButtonLocate: TextStyle = {
 
 const styles = StyleSheet.create({
   keyboard: {
-    flex: 1,
+    flexGrow: 1,
+    width: '100%',
   },
   safeArea: {
-    flex: 1,
+    flexGrow: 1,
     width: '100%',
   },
   content: {

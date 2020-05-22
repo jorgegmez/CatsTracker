@@ -4,7 +4,7 @@ type CatPet = {
   breed: string;
   description: string;
   age: number;
-  picture: number;
+  picture?: ImageURISource | number | string;
   coordinates?: LatLng;
 };
 
@@ -12,7 +12,7 @@ interface UserStateModel extends ReduxStateModel {
   data: {
     name: string;
     lastName: string;
-    profilePicture: number;
+    profilePicture?: ImageURISource | number | string;
     myCats: CatPet[];
   };
 }
@@ -20,6 +20,6 @@ interface UserStateModel extends ReduxStateModel {
 interface UpdateUserStateModel {
   name?: string;
   lastName?: string;
-  profilePicture?: number;
+  profilePicture?: ImageURISource | number | string;
   myCats?: CatPet[];
 }

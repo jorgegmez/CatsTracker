@@ -5,17 +5,17 @@ interface CatStateModel extends ReduxStateModel {
     breed: string;
     description: string;
     age: number;
-    picture: number;
+    picture: ImageURISource | number | string;
     coordinates: LatLng;
   };
 }
 
 interface UpdateCatStateModel {
-  id: string;
-  name: string;
-  breed: string;
+  id?: string;
+  name?: string;
+  breed?: string;
   description?: string;
-  age: number;
-  picture: number;
-  coordinates: LatLng;
+  age?: number;
+  picture?: ImageURISource | number | string;
+  coordinates?: LatLng;
 }

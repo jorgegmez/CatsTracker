@@ -2,12 +2,12 @@
 import React, { createRef } from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, StatusBar, View, KeyboardAvoidingView, Platform } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import { colorsGlobal as colors, stringsAuth, imagesGlobal, validations } from '@constants';
 import { Titles, MainButton, Input, ProfilePicture, Loading, Card } from '@components';
-import { registerUserInfoAction } from '@state/global/user/actions';
+import { registerUserInfoAction, setUserProfilePictureAction } from '@state/global/user/actions';
 import DropdownAlert from 'react-native-dropdownalert';
-import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { NavigationService } from '@services';
 import universalUtils from '@helpers/universal';
 import * as userSelectos from '@state/global/user/selector';
@@ -26,6 +26,7 @@ type State = {
 type Props = {
   userInfo: UserStateModel;
   registerUserInfo: (userInfo: UpdateUserStateModel) => void;
+  setUserProfilePicture: (picture: UpdateUserStateModel) => void;
 };
 
 class Settings extends React.PureComponent<Props, State> {
@@ -43,30 +44,40 @@ class Settings extends React.PureComponent<Props, State> {
   notificationRef = createRef<DropdownAlert>();
 
   private selectProfileImage = async (fileName?: string) => {
-    const { setProfilePicture } = this.state;
-    const imageFile = handleSelectProfileImage({
-      fileName,
-    });
+    const { setUserProfilePicture } = this.props;
+    const options = {
+      title: `Select ${fileName}`,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
 
-    if (imageFile) {
-      this.setThumbnailImage(await imageFile);
+    ImagePicker.showImagePicker(options, (response) => {
+      const source = { uri: response.uri };
       this.setState({
-        loading: false,
-        setProfilePicture: !setProfilePicture,
+        loading: true,
       });
-    }
-  };
-
-  private setThumbnailImage = (imageUri?: string) => {
-    this.setState({
-      loading: true,
-      userProfileImage: imageUri,
+      if (source.uri) {
+        this.setState({
+          loading: false,
+          userProfileImage: source.uri,
+        });
+        const userPicture: UpdateUserStateModel = {
+          profilePicture: { uri: source.uri }
+        };
+        setUserProfilePicture(userPicture);
+      }
     });
   };
 
-  public handleUpdateUserMethod = async ({ name, lastName, profilePicture }: UpdateUserStateModel) => {
+  public handleUpdateUserMethod = async ({ name, lastName }: UpdateUserStateModel) => {
     const {
       registerUserInfo,
+
+      userInfo: {
+        data: { profilePicture },
+      },
     } = this.props;
     const newUser: UpdateUserStateModel = {
         name,
@@ -164,6 +175,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
   registerUserInfo: (data: UpdateUserStateModel) => dispatch(registerUserInfoAction(data)),
+  setUserProfilePicture: (picture: UpdateUserStateModel) => dispatch(setUserProfilePictureAction(picture)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -2,14 +2,15 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, View, Image, FlatList, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import _ from 'lodash';
 import { colorsGlobal as colors, imagesGlobal as images, stringsHome, imagesGlobal, stringsCat, icons, validations } from '@constants';
 import { Titles, MainButton, CustomHeader, Loading, Input, ProfilePicture, StepButton, Icon, BodyText, Card, ThinButton, Modal } from '@components';
-import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { registerCatInfoRegisterAction } from '@state/global/user/actions';
-import { updateCurrentCatAction } from '@state/global/cat/actions';
+import { updateCurrentCatAction, setCatPictureAction } from '@state/global/cat/actions';
 import * as userSelectors from '@state/global/user/selector';
+import * as catSelectors from '@state/global/cat/selector';
 import { handleRegisterCat, handleDeleteCat } from '@helpers/handlerCatsData';
 import { NavigationService } from '@services';
 import { catRegisterSchema } from './schema';
@@ -23,6 +24,7 @@ type Props = {
   catInfo: CatStateModel;
   registerCatInfoRegister: (cat: CatPet[]) => void;
   updateCurrentCat: (cat?: CatPet) => void;
+  setCatPicture: (picture: UpdateCatStateModel) => void;
 };
 
 type State = {
@@ -56,32 +58,42 @@ class Home extends React.PureComponent<Props, State> {
   };
 
   private selectProfileImage = async (fileName?: string) => {
-    const { setProfilePicture } = this.state;
-    const imageFile = handleSelectProfileImage({
-      fileName,
-    });
+    const { setCatPicture } = this.props;
+    const options = {
+      title: `Select ${fileName}`,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
 
-    if (imageFile) {
-      this.setThumbnailImage(await imageFile);
+    ImagePicker.showImagePicker(options, (response) => {
+      const source = { uri: response.uri };
       this.setState({
-        loading: false,
-        setProfilePicture: !setProfilePicture,
+        loading: true,
       });
-    }
-  };
-
-  private setThumbnailImage = (imageUri?: string) => {
-    this.setState({
-      loading: true,
-      userProfileImage: imageUri,
+      if (source.uri) {
+        this.setState({
+          loading: false,
+          userProfileImage: source.uri,
+        });
+        const catPicture: UpdateCatStateModel = {
+          picture: source.uri,
+        };
+        setCatPicture(catPicture);
+      }
     });
   };
 
-  public handleRegisterCatMethod = async ({ name, breed, age, description, picture }: CatPet) => {
+
+  public handleRegisterCatMethod = async ({ name, breed, age, description }: CatPet) => {
     const {
       registerCatInfoRegister,
       userInfo: {
         data: { myCats },
+      },
+      catInfo: {
+        data: { picture },
       },
     } = this.props;
     if (name && breed && age && description && picture) {
@@ -113,6 +125,7 @@ class Home extends React.PureComponent<Props, State> {
     const { currentCatId } = this.state;
     const newCats = handleDeleteCat(currentCatId, myCats);
     registerCatInfoRegister(newCats);
+    this.callModalCofirmation();
   };
 
   updateCatInfo = (catId?: string) => {
@@ -143,6 +156,7 @@ class Home extends React.PureComponent<Props, State> {
           uri: userProfileImage,
         }
       : imagesGlobal.ICON_CAT_AVATAR;
+    console.log('imagePlacement', imagePlacement);
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
@@ -217,7 +231,7 @@ class Home extends React.PureComponent<Props, State> {
             </View>
           ) : (
             <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
-              <ScrollView bounces={false}>
+              <ScrollView contentContainerStyle={styles.safeArea} bounces={false}>
                 <CustomHeader
                   logo={imagesGlobal.ICON_SAD_CAT}
                   title={stringsHome.HOME_NO_CATS_TITLE_TEXT}
@@ -306,11 +320,13 @@ class Home extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
   userInfo: userSelectors.UserSelector(state),
+  catInfo: catSelectors.CatSelector(state),
 });
 // updateCurrentCatAction
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
   registerCatInfoRegister: (pet: CatPet[]) => dispatch(registerCatInfoRegisterAction(pet)),
   updateCurrentCat: (pet?: CatPet) => dispatch(updateCurrentCatAction(pet)),
+  setCatPicture: (picture: UpdateCatStateModel) => dispatch(setCatPictureAction(picture)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

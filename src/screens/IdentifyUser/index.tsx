@@ -2,14 +2,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import { colorsGlobal as colors, stringsAuth, imagesGlobal } from '@constants';
 import { Titles, MainButton, Card, Input, ProfilePicture, Loading } from '@components';
-import { setUserProfilePictureAction, registerUserInfoAction } from '@state/global/user/actions';
+import { registerUserInfoAction, setUserProfilePictureAction } from '@state/global/user/actions';
+import * as userSelectos from '@state/global/user/selector';
 import { NavigationService } from '@services';
-import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import _ from 'lodash';
 import { identifySchema } from './schema';
+
 
 import styles from './styles';
 
@@ -21,8 +23,9 @@ type State = {
 };
 
 type Props = {
-  setUserProfilePicture: (image: UpdateUserStateModel) => void;
+  userInfo: UserStateModel;
   registerUserInfo: (user: UpdateUserStateModel) => void;
+  setUserProfilePicture: (picture: UpdateUserStateModel) => void;
 };
 
 class IdentifyUser extends React.PureComponent<Props, State> {
@@ -38,35 +41,44 @@ class IdentifyUser extends React.PureComponent<Props, State> {
   };
 
   private selectProfileImage = async (fileName?: string) => {
-    const { setProfilePicture } = this.state;
-    const imageFile = await handleSelectProfileImage({
-      fileName,
-    });
+    const { setUserProfilePicture } = this.props;
+    const options = {
+      title: `Select ${fileName}`,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
 
-    if (imageFile) {
-      this.setThumbnailImage(await imageFile);
+    ImagePicker.showImagePicker(options, (response) => {
+      const source = { uri: response.uri };
       this.setState({
-        loading: false,
-        setProfilePicture: !setProfilePicture,
+        loading: true,
       });
-    }
-  };
-
-  private setThumbnailImage = (imageUri?: string) => {
-    this.setState({
-      loading: true,
-      userProfileImage: imageUri,
+      if (source.uri) {
+        this.setState({
+          loading: false,
+          userProfileImage: source.uri,
+        });
+        const userPicture: UpdateUserStateModel = {
+          profilePicture: { uri: source.uri }
+        };
+        setUserProfilePicture(userPicture);
+      }
     });
   };
 
-  public handleIdentifyUser = async ({ name, lastName, profilePicture }: UpdateUserStateModel) => {
-    const { registerUserInfo } = this.props;
+  public handleIdentifyUser = async ({ name, lastName }: UpdateUserStateModel) => {
+    const {
+      registerUserInfo,
+      userInfo: { data: { profilePicture } },
+    } = this.props;
     if (name && lastName && profilePicture) registerUserInfo({ name, lastName, profilePicture });
     NavigationService.home.goToHome();
   };
 
   render() {
-    const { themeOfButton, userProfileImage, loading } = this.state;
+    const { themeOfButton, userProfileImage } = this.state;
     const imagePlacement = userProfileImage
       ? {
           uri: userProfileImage,
@@ -121,15 +133,18 @@ class IdentifyUser extends React.PureComponent<Props, State> {
             )}
           </Formik>
         </ScrollView>
-        <Loading showModal={loading} />
       </SafeAreaView>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
-  setUserProfilePicture: (imageUrl: UpdateUserStateModel) => dispatch(setUserProfilePictureAction(imageUrl)),
-  registerUserInfo: (data: UpdateUserStateModel) => dispatch(registerUserInfoAction(data)),
+const mapStateToProps = (state: RootState) => ({
+  userInfo: userSelectos.UserSelector(state),
 });
 
-export default connect(null, mapDispatchToProps)(IdentifyUser);
+const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
+  registerUserInfo: (data: UpdateUserStateModel) => dispatch(registerUserInfoAction(data)),
+  setUserProfilePicture: (picture: UpdateUserStateModel) => dispatch(setUserProfilePictureAction(picture)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(IdentifyUser);
