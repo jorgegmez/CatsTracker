@@ -7,15 +7,14 @@ import universalUtils from '@helpers/universal';
 import AppContainer from './src/navigation/AppNavigation';
 import configureStore from './src/state/store';
 
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 
 export default class App extends Component {
-  // componentDidMount() {
-  //   if (SplashScreen) {
-  //     SplashScreen.hide();
-  //   }
-  //   this.handleNotificationSetup();
-  // }
+  componentDidMount() {
+    if (SplashScreen) {
+      SplashScreen.hide();
+    }
+  }
 
   public render() {
     return (
