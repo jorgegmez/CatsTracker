@@ -5,7 +5,7 @@ import { styles, dynamicStyles } from './styles';
 import Icon from '../Icon';
 
 type Props = {
-  image?: ImageSourcePropType;
+  image?: ImageSourcePropType | string;
   showEditIcon?: boolean;
   size?: number;
   onImageSelected?: () => void;

@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     marginBottom: 50,
   },
+  keyboard: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
   },

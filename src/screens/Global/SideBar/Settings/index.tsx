@@ -1,13 +1,13 @@
-/* eslint-disable prettier/prettier */
+
 import React, { createRef } from 'react';
 import { connect } from 'react-redux';
-import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, View, KeyboardAvoidingView, Platform } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import { colorsGlobal as colors, stringsAuth, imagesGlobal, validations } from '@constants';
 import { Titles, MainButton, Input, ProfilePicture, Loading, Card } from '@components';
-import { registerUserInfoAction } from '@state/global/user/actions';
+import { registerUserInfoAction, setUserProfilePictureAction } from '@state/global/user/actions';
 import DropdownAlert from 'react-native-dropdownalert';
-import { handleSelectProfileImage } from '@helpers/handlerProfilePicture';
 import { NavigationService } from '@services';
 import universalUtils from '@helpers/universal';
 import * as userSelectos from '@state/global/user/selector';
@@ -26,6 +26,7 @@ type State = {
 type Props = {
   userInfo: UserStateModel;
   registerUserInfo: (userInfo: UpdateUserStateModel) => void;
+  setUserProfilePicture: (picture: UpdateUserStateModel) => void;
 };
 
 class Settings extends React.PureComponent<Props, State> {
@@ -43,30 +44,40 @@ class Settings extends React.PureComponent<Props, State> {
   notificationRef = createRef<DropdownAlert>();
 
   private selectProfileImage = async (fileName?: string) => {
-    const { setProfilePicture } = this.state;
-    const imageFile = handleSelectProfileImage({
-      fileName,
-    });
+    const { setUserProfilePicture } = this.props;
+    const options = {
+      title: `Select ${fileName}`,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
 
-    if (imageFile) {
-      this.setThumbnailImage(await imageFile);
+    ImagePicker.showImagePicker(options, (response) => {
+      const source = { uri: response.uri };
       this.setState({
-        loading: false,
-        setProfilePicture: !setProfilePicture,
+        loading: true,
       });
-    }
-  };
-
-  private setThumbnailImage = (imageUri?: string) => {
-    this.setState({
-      loading: true,
-      userProfileImage: imageUri,
+      if (source.uri) {
+        this.setState({
+          loading: false,
+          userProfileImage: source.uri,
+        });
+        const userPicture: UpdateUserStateModel = {
+          profilePicture: { uri: source.uri }
+        };
+        setUserProfilePicture(userPicture);
+      }
     });
   };
 
-  public handleUpdateUserMethod = async ({ name, lastName, profilePicture }: UpdateUserStateModel) => {
+  public handleUpdateUserMethod = async ({ name, lastName }: UpdateUserStateModel) => {
     const {
       registerUserInfo,
+
+      userInfo: {
+        data: { profilePicture },
+      },
     } = this.props;
     const newUser: UpdateUserStateModel = {
         name,
@@ -100,58 +111,60 @@ class Settings extends React.PureComponent<Props, State> {
         }
       : profilePicture || imagesGlobal.ICON_AVATAR;
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
-        <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
-          <Formik
-            initialValues={{
-              name,
-              lastName,
-              profilePicture: imagePlacement,
-            }}
-            validationSchema={userUpdateSchema}
-            onSubmit={this.handleUpdateUserMethod}
-          >
-            {props => (
-              <View style={styles.content}>
-                <Card customTextStyle={styles.customTextStyle} theme="white">
-                  <View style={styles.firstSectionHeaderStyle}>
-                    <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
-                  </View>
-                  <View style={styles.secondSectionHeaderStyle}>
-                    <Input
-                      onChange={props.handleChange('name')}
-                      onBlur={props.handleBlur('name')}
-                      value={props.values.name}
-                      type="normal"
-                      label={stringsAuth.REGISTER_USER_NAME_TEXT}
-                      hasError={!!props.errors.name}
-                    />
-                    <Input
-                      onChange={props.handleChange('lastName')}
-                      onBlur={props.handleBlur('lastName')}
-                      value={props.values.lastName}
-                      type="normal"
-                      label={stringsAuth.REGISTER_USER_LASTNAME_TEXT}
-                      hasError={!!props.errors.lastName}
-                    />
-                  </View>
-                </Card>
-                <View style={styles.buttonContainer}>
-                  <MainButton
-                    theme={themeOfButton}
-                    text={stringsAuth.UPDATE_USER_BUTTON}
-                    testID={_.uniqueId()}
-                    customButtonStyle={styles.mainButton}
-                    onPress={props.handleSubmit}
-                  />
-                </View>
-              </View>
-            )}
-          </Formik>
-        </ScrollView>
-        <Loading showModal={loading} />
-      </SafeAreaView>
+        <KeyboardAvoidingView style={styles.keyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={100}>
+            <SafeAreaView style={styles.safeArea}>
+                <StatusBar backgroundColor={colors.PRIMARY} barStyle="light-content" />
+                <ScrollView alwaysBounceVertical={false} bounces={false} contentContainerStyle={styles.scrollView}>
+                    <Formik
+                        initialValues={{
+                        name,
+                        lastName,
+                        profilePicture: imagePlacement,
+                        }}
+                        validationSchema={userUpdateSchema}
+                        onSubmit={this.handleUpdateUserMethod}
+                    >
+                        {props => (
+                        <View style={styles.content}>
+                            <Card customTextStyle={styles.customTextStyle} theme="white">
+                            <View style={styles.firstSectionHeaderStyle}>
+                                <ProfilePicture showEditIcon image={imagePlacement} onImageSelected={() => this.selectProfileImage('picture')} />
+                            </View>
+                            <View style={styles.secondSectionHeaderStyle}>
+                                <Input
+                                onChange={props.handleChange('name')}
+                                onBlur={props.handleBlur('name')}
+                                value={props.values.name}
+                                type="normal"
+                                label={stringsAuth.REGISTER_USER_NAME_TEXT}
+                                hasError={!!props.errors.name}
+                                />
+                                <Input
+                                onChange={props.handleChange('lastName')}
+                                onBlur={props.handleBlur('lastName')}
+                                value={props.values.lastName}
+                                type="normal"
+                                label={stringsAuth.REGISTER_USER_LASTNAME_TEXT}
+                                hasError={!!props.errors.lastName}
+                                />
+                            </View>
+                            </Card>
+                            <View style={styles.buttonContainer}>
+                            <MainButton
+                                theme={themeOfButton}
+                                text={stringsAuth.UPDATE_USER_BUTTON}
+                                testID={_.uniqueId()}
+                                customButtonStyle={styles.mainButton}
+                                onPress={props.handleSubmit}
+                            />
+                            </View>
+                        </View>
+                        )}
+                    </Formik>
+                </ScrollView>
+                <Loading showModal={loading} />
+            </SafeAreaView>
+        </KeyboardAvoidingView>
     );
   }
 }
@@ -162,6 +175,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: DispatchRSSA) => ({
   registerUserInfo: (data: UpdateUserStateModel) => dispatch(registerUserInfoAction(data)),
+  setUserProfilePicture: (picture: UpdateUserStateModel) => dispatch(setUserProfilePictureAction(picture)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
