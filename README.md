@@ -14,5 +14,5 @@
 # Whats the project about
 The main idea of this project is to be able of add, delete, update and track my cats
 
-# How the app looks?
+# How does the app looks?
 App: https://monosnap.com/file/TciecnMIemmEIdGkyiP0Id3KgN3I4P
