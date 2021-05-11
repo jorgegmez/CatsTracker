@@ -36,7 +36,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-module-resolver": "^0.16.0",
     "formik": "^2.1.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-native": "^0.62.2",
     "react-native-dropdownalert": "^4.2.1",
